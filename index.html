@@ -71,7 +71,8 @@
     align-self: flex-end; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border);
     background: var(--card); color: var(--text); cursor: pointer; font-size: 0.8rem;
   }
-  td.dim { opacity: 0.1; }
+  .checkbox-label { flex-direction: row !important; align-items: center; gap: 5px !important; color: var(--text); cursor: pointer; }
+  .checkbox-label input { cursor: pointer; }
 </style>
 </head>
 <body>
@@ -101,17 +102,12 @@
         </label>
       </div>
       <div class="legend" id="legend"></div>
-      <div class="filters">
-        <label>섹터
-          <select id="filterSector"><option value="">전체</option></select>
-        </label>
-        <label>상승이유(테마)
-          <select id="filterTheme"><option value="">전체</option></select>
-        </label>
-        <label>상승률
-          <select id="filterPct"><option value="">전체</option></select>
-        </label>
-        <button type="button" id="filterReset">필터 초기화</button>
+      <div class="filters" id="colToggles">
+        <span style="color:var(--muted);">표시할 열:</span>
+        <label class="checkbox-label"><input type="checkbox" id="colPct" checked> 상승률</label>
+        <label class="checkbox-label"><input type="checkbox" id="colCap" checked> 시가총액</label>
+        <label class="checkbox-label"><input type="checkbox" id="colSector" checked> 섹터</label>
+        <label class="checkbox-label"><input type="checkbox" id="colReason" checked> 상승이유</label>
       </div>
       <div id="tableWrap"></div>
     </div>
@@ -119,8 +115,11 @@
     <h2>일자별 섹터 Pareto (막대 클릭 시 해당 종목 표시)</h2>
     <div class="grid" id="paretoGrid"></div>
 
-    <h2>섹터 히트맵 (일자 × 섹터, 종목 수)</h2>
-    <div class="card"><div id="heatmapWrap"></div></div>
+    <h2>섹터 히트맵 (일자 × 섹터, 종목 수 — 칸 클릭 시 해당 종목 표시)</h2>
+    <div class="card">
+      <div id="heatmapWrap"></div>
+      <div class="pareto-detail" id="heatmapDetail"><span class="hint">칸을 클릭하면 해당 일자·섹터의 종목과 상승이유가 표시됩니다.</span></div>
+    </div>
 
     <div class="grid" style="margin-top:16px;">
       <div class="card">
@@ -335,8 +334,8 @@ function setupPeriodControls(data) {
 
 function renderTrendTab(viewData) {
   renderLegend(viewData);
+  setupColumnToggles(viewData);
   renderTable(viewData);
-  setupFilters(viewData);
   renderParetoGrid(viewData);
   renderHeatmap(viewData);
   renderMomentum(viewData);
@@ -367,14 +366,31 @@ function renderLegend(data) {
 }
 
 // ---------- main comparison table ----------
-function pctBucket(pct) {
-  if (pct == null || pct === '') return '';
-  const v = +pct;
-  if (v >= 25) return '25% 이상';
-  if (v >= 20) return '20%~25%';
-  if (v >= 15) return '15%~20%';
-  if (v >= 10) return '10%~15%';
-  return '10% 미만';
+// Columns after 종목(name) are optional — user toggles which ones are wide
+// enough to bother showing, since the table repeats these per date and
+// gets very wide horizontally.
+const COLUMN_DEFS = [
+  { key: 'pct', label: '상승률', checkboxId: 'colPct' },
+  { key: 'cap', label: '시가총액', checkboxId: 'colCap' },
+  { key: 'sector', label: '섹터', checkboxId: 'colSector' },
+  { key: 'reason', label: '상승이유', checkboxId: 'colReason' },
+];
+
+function activeColumns() {
+  return COLUMN_DEFS.filter(c => document.getElementById(c.checkboxId)?.checked ?? true);
+}
+
+function cellForColumn(col, entry, hueStyle) {
+  switch (col.key) {
+    case 'pct':
+      return `<td class="pct-cell sector-bg" style="${hueStyle}">${entry.change_pct != null && entry.change_pct !== '' ? entry.change_pct + '%' : '-'}</td>`;
+    case 'cap':
+      return `<td class="sector-bg" style="${hueStyle}">${entry.market_cap_display || '-'}</td>`;
+    case 'sector':
+      return `<td class="sector-bg" style="${hueStyle}">${entry.sector_tag}</td>`;
+    case 'reason':
+      return `<td class="reason-cell sector-bg" style="${hueStyle}">${entry.reason || '-'}</td>`;
+  }
 }
 
 function renderTable(data) {
@@ -386,30 +402,28 @@ function renderTable(data) {
 
   const streakByDateName = computeStreakByDateName(dates, data.boards);
   const maxRank = Math.max(30, ...dates.map(d => (data.boards[d] || []).length));
-  const fields = ['종목', '상승률', '시가총액', '섹터', '상승이유'];
+  const columns = activeColumns();
+  const colCount = 1 + columns.length; // 종목 + toggled columns
 
   let html = '<table class="rank-table"><thead>';
   html += '<tr><th class="rank-head" rowspan="2">순위</th>' +
-    dates.map(d => `<th class="date-head" colspan="${fields.length}">${formatDate(d)}</th>`).join('') + '</tr>';
-  html += '<tr>' + dates.map(() => fields.map(f => `<th class="field-head">${f}</th>`).join('')).join('') + '</tr>';
+    dates.map(d => `<th class="date-head" colspan="${colCount}">${formatDate(d)}</th>`).join('') + '</tr>';
+  html += '<tr>' + dates.map(() =>
+    '<th class="field-head">종목</th>' + columns.map(c => `<th class="field-head">${c.label}</th>`).join('')
+  ).join('') + '</tr>';
   html += '</thead><tbody>';
 
   for (let rank = 1; rank <= maxRank; rank++) {
     html += `<tr><td class="rank-cell">${rank}</td>`;
     for (const d of dates) {
       const entry = (data.boards[d] || []).find(e => e.rank === rank);
-      if (!entry) { html += '<td></td><td></td><td></td><td></td><td class="reason-cell"></td>'; continue; }
+      if (!entry) { html += '<td></td>'.repeat(colCount); continue; }
       const hue = hashHue(entry.sector_tag);
       const hueStyle = `--hue:${hue};`;
       const streak = streakByDateName[`${d}|${entry.name}`] || 1;
       const streakBadge = streak > 1 ? `<span class="streak" title="${streak}일 연속 TOP30 등장">${streak}일</span>` : '';
-      const dataAttrs = `data-sector="${entry.sector_tag}" data-theme="${entry.theme_tag || ''}" data-pct="${pctBucket(entry.change_pct)}"`;
-      html += `
-        <td class="name-cell sector-bg" style="${hueStyle}" ${dataAttrs}>${entry.name}${streakBadge}</td>
-        <td class="pct-cell sector-bg" style="${hueStyle}" ${dataAttrs}>${entry.change_pct != null && entry.change_pct !== '' ? entry.change_pct + '%' : '-'}</td>
-        <td class="sector-bg" style="${hueStyle}" ${dataAttrs}>${entry.market_cap_display || '-'}</td>
-        <td class="sector-bg" style="${hueStyle}" ${dataAttrs}>${entry.sector_tag}</td>
-        <td class="reason-cell sector-bg" style="${hueStyle}" ${dataAttrs}>${entry.reason || '-'}</td>`;
+      html += `<td class="name-cell sector-bg" style="${hueStyle}">${entry.name}${streakBadge}</td>`;
+      html += columns.map(c => cellForColumn(c, entry, hueStyle)).join('');
     }
     html += '</tr>';
   }
@@ -417,47 +431,11 @@ function renderTable(data) {
   document.getElementById('tableWrap').innerHTML = html;
 }
 
-// ---------- filters (섹터 / 상승이유 / 상승률) ----------
-function setupFilters(data) {
-  const sectors = new Set();
-  const themes = new Set();
-  Object.values(data.boards || {}).forEach(board => board.forEach(e => {
-    sectors.add(e.sector_tag);
-    if (e.theme_tag) themes.add(e.theme_tag);
-  }));
-
-  const sectorSel = document.getElementById('filterSector');
-  const themeSel = document.getElementById('filterTheme');
-  const pctSel = document.getElementById('filterPct');
-
-  // reset (this runs again on every period change, so clear stale options first)
-  sectorSel.innerHTML = '<option value="">전체</option>';
-  themeSel.innerHTML = '<option value="">전체</option>';
-  pctSel.innerHTML = '<option value="">전체</option>';
-
-  [...sectors].sort().forEach(s => sectorSel.insertAdjacentHTML('beforeend', `<option value="${s}">${s}</option>`));
-  [...themes].sort().forEach(t => themeSel.insertAdjacentHTML('beforeend', `<option value="${t}">${t}</option>`));
-  ['25% 이상', '20%~25%', '15%~20%', '10%~15%', '10% 미만'].forEach(p =>
-    pctSel.insertAdjacentHTML('beforeend', `<option value="${p}">${p}</option>`));
-
-  function applyFilters() {
-    const sector = sectorSel.value, theme = themeSel.value, pct = pctSel.value;
-    document.querySelectorAll('#tableWrap td[data-sector]').forEach(td => {
-      const match = (!sector || td.dataset.sector === sector) &&
-        (!theme || td.dataset.theme === theme) &&
-        (!pct || td.dataset.pct === pct);
-      td.classList.toggle('dim', !match);
-    });
-  }
-
-  // assign (not addEventListener) so re-running setupFilters on period change doesn't stack handlers
-  sectorSel.onchange = applyFilters;
-  themeSel.onchange = applyFilters;
-  pctSel.onchange = applyFilters;
-  document.getElementById('filterReset').onclick = () => {
-    sectorSel.value = ''; themeSel.value = ''; pctSel.value = '';
-    applyFilters();
-  };
+// ---------- column visibility toggles ----------
+function setupColumnToggles(data) {
+  COLUMN_DEFS.forEach(c => {
+    document.getElementById(c.checkboxId).onchange = () => renderTable(data);
+  });
 }
 
 // ---------- 일자별 조회 tab ----------
@@ -579,13 +557,20 @@ function renderParetoGrid(data) {
   });
 }
 
-function showSectorDetail(date, sector) {
+function sectorDetailHTML(date, sector) {
   const board = (window.__data.boards[date] || []).filter(e => e.sector_tag === sector).sort((a, b) => a.rank - b.rank);
-  const el = document.getElementById(`detail-${date}`);
-  el.innerHTML = `<strong>${sector}</strong> (${board.length}개)<ul>` +
+  return `<strong>${formatDate(date)} · ${sector}</strong> (${board.length}개)<ul>` +
     board.map(e => `<li><strong>${e.name}</strong> · ${e.change_pct}% · ${e.market_cap_display || '-'}<br>
       <span style="color:var(--muted);">${e.reason || '-'}</span></li>`).join('') +
     '</ul>';
+}
+
+function showSectorDetail(date, sector) {
+  document.getElementById(`detail-${date}`).innerHTML = sectorDetailHTML(date, sector);
+}
+
+function showHeatmapDetail(date, sector) {
+  document.getElementById('heatmapDetail').innerHTML = sectorDetailHTML(date, sector);
 }
 
 // ---------- sector heatmap ----------
@@ -602,12 +587,18 @@ function renderHeatmap(data) {
     dates.forEach(d => {
       const v = (data.sector_trend[d] || {})[s] || 0;
       const alpha = v ? 0.15 + 0.75 * (v / maxVal) : 0.04;
-      html += `<td style="background:hsl(${hashHue(s)} 70% 50% / ${alpha});">${v || ''}</td>`;
+      const clickable = v ? `data-date="${d}" data-sector="${s}" style="cursor:pointer;background:hsl(${hashHue(s)} 70% 50% / ${alpha});"` : `style="background:hsl(${hashHue(s)} 70% 50% / ${alpha});"`;
+      html += `<td ${clickable}>${v || ''}</td>`;
     });
     html += '</tr>';
   });
   html += '</tbody></table>';
-  document.getElementById('heatmapWrap').innerHTML = html;
+  const wrap = document.getElementById('heatmapWrap');
+  wrap.innerHTML = html;
+  wrap.onclick = (evt) => {
+    const cell = evt.target.closest('td[data-date]');
+    if (cell) showHeatmapDetail(cell.dataset.date, cell.dataset.sector);
+  };
 }
 
 // ---------- momentum ranking ----------
