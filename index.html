@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TOP30 트렌드 대시보드</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+  :root {
+    --bg: #f7f7f8; --card: #ffffff; --text: #1a1a1a; --muted: #666;
+    --border: #e5e5e5; --accent: #2563eb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #16171a; --card: #1f2023; --text: #eaeaea; --muted: #9a9a9a; --border: #303136; --accent: #5b8def; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 24px; background: var(--bg); color: var(--text);
+    font-family: -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+  }
+  h1 { font-size: 1.4rem; margin: 0 0 4px; }
+  .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px; overflow-x: auto;
+  }
+  .card h2 { font-size: 1rem; margin: 0 0 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  th { color: var(--muted); font-weight: 500; }
+  .empty { color: var(--muted); padding: 40px 0; text-align: center; }
+  canvas { max-width: 100%; }
+</style>
+</head>
+<body>
+  <h1>몽당연필 TOP30 트렌드 대시보드</h1>
+  <div class="sub" id="meta">불러오는 중…</div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>섹터 트렌드 (일자별 종목 수)</h2>
+      <canvas id="sectorChart"></canvas>
+    </div>
+    <div class="card">
+      <h2>상승 사유 테마 트렌드 (일자별 종목 수)</h2>
+      <canvas id="themeChart"></canvas>
+    </div>
+    <div class="card">
+      <h2>시가총액 분포</h2>
+      <canvas id="capChart"></canvas>
+    </div>
+    <div class="card">
+      <h2>반복 등장 종목 TOP 15</h2>
+      <canvas id="recurringChart"></canvas>
+    </div>
+    <div class="card">
+      <h2>전체 반복 등장 종목 리스트</h2>
+      <div id="recurringTable"></div>
+    </div>
+  </div>
+
+<script>
+const PALETTE = ['#2563eb','#e0752f','#16a34a','#dc2626','#7c3aed','#0891b2','#ca8a04','#db2777','#4b5563','#059669'];
+
+async function main() {
+  let data;
+  try {
+    const res = await fetch('data/latest.json', {cache: 'no-store'});
+    if (!res.ok) throw new Error('no data yet');
+    data = await res.json();
+  } catch (e) {
+    document.querySelector('.grid').innerHTML = '<div class="empty">아직 데이터가 없습니다. Private 저장소에 첫 게시글 Issue를 등록하면 여기에 표시됩니다.</div>';
+    document.getElementById('meta').textContent = '데이터 없음';
+    return;
+  }
+
+  document.getElementById('meta').textContent =
+    `최신 데이터: ${data.latest_date ?? '-'}  ·  누적 게시글 수: ${data.total_posts_ingested}`;
+
+  renderSectorTrend(data);
+  renderThemeTrend(data);
+  renderCapDistribution(data);
+  renderRecurring(data);
+}
+
+function stackedBarChart(canvasId, dates, trendByDate, topN) {
+  const totals = {};
+  dates.forEach(d => Object.entries(trendByDate[d] || {}).forEach(([k, v]) => {
+    totals[k] = (totals[k] || 0) + v;
+  }));
+  const keys = Object.keys(totals).sort((a, b) => totals[b] - totals[a]).slice(0, topN);
+
+  const datasets = keys.map((key, i) => ({
+    label: key,
+    data: dates.map(d => (trendByDate[d] || {})[key] || 0),
+    backgroundColor: PALETTE[i % PALETTE.length],
+  }));
+
+  new Chart(document.getElementById(canvasId), {
+    type: 'bar',
+    data: { labels: dates, datasets },
+    options: {
+      responsive: true,
+      scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, ticks: { stepSize: 1 } } },
+      plugins: { legend: { position: 'bottom' } },
+    },
+  });
+}
+
+function renderSectorTrend(data) {
+  stackedBarChart('sectorChart', data.dates, data.sector_trend, 12);
+}
+
+function renderThemeTrend(data) {
+  stackedBarChart('themeChart', data.dates, data.theme_trend, 12);
+}
+
+function renderCapDistribution(data) {
+  const dist = data.market_cap_distribution || {};
+  const labels = Object.keys(dist);
+  new Chart(document.getElementById('capChart'), {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{ data: labels.map(l => dist[l]), backgroundColor: PALETTE }],
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } },
+  });
+}
+
+function renderRecurring(data) {
+  const top = (data.recurring_stocks || []).slice(0, 15);
+  new Chart(document.getElementById('recurringChart'), {
+    type: 'bar',
+    data: {
+      labels: top.map(s => s.name),
+      datasets: [{ label: '등장 횟수', data: top.map(s => s.count), backgroundColor: '#2563eb' }],
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } },
+    },
+  });
+
+  const rows = (data.recurring_stocks || []).map(s => `
+    <tr>
+      <td>${s.name}</td>
+      <td>${s.sector}</td>
+      <td>${s.theme || '-'}</td>
+      <td>${s.count}</td>
+      <td>${formatCap(s.market_cap)}</td>
+      <td>${s.dates.join(', ')}</td>
+    </tr>`).join('');
+
+  document.getElementById('recurringTable').innerHTML = `
+    <table>
+      <thead><tr><th>종목명</th><th>섹터</th><th>최근 상승 테마</th><th>등장 횟수</th><th>시가총액</th><th>등장일</th></tr></thead>
+      <tbody>${rows || '<tr><td colspan="6" class="empty">데이터 없음</td></tr>'}</tbody>
+    </table>`;
+}
+
+function formatCap(won) {
+  if (!won) return '-';
+  const eok = won / 100_000_000;
+  if (eok >= 10000) return (eok / 10000).toFixed(1).replace(/\.0$/, '') + '조';
+  return Math.round(eok).toLocaleString() + '억';
+}
+
+main();
+</script>
+</body>
+</html>
