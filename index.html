@@ -48,6 +48,10 @@
     display: inline-block; margin-top: 2px; font-size: 0.7rem; color: var(--accent);
     cursor: pointer; user-select: none;
   }
+  .reason-toggle-head { cursor: pointer; user-select: none; }
+  .reason-toggle-head:hover { color: var(--text); }
+  .reason-toggle-icon { color: var(--accent); }
+  td.reason-collapsed { text-align: center; color: var(--muted); min-width: 0; max-width: none; }
   td.sector-bg { background: hsl(var(--hue) 65% 88%); }
   @media (prefers-color-scheme: dark) {
     td.sector-bg { background: hsl(var(--hue) 40% 24%); }
@@ -425,7 +429,13 @@ function activeColumns() {
   return COLUMN_DEFS.filter(c => document.getElementById(c.checkboxId)?.checked ?? true);
 }
 
-function cellForColumn(col, entry, hueStyle) {
+// Per-date collapse for the 상승이유 column specifically — the master
+// checkbox above shows/hides it everywhere; this lets a user additionally
+// hide it for just one or two dates (click the header) to save width
+// without losing the column for every date.
+const collapsedReasonDates = new Set();
+
+function cellForColumn(col, entry, hueStyle, date) {
   switch (col.key) {
     case 'pct':
       return `<td class="pct-cell sector-bg" style="${hueStyle}">${entry.change_pct != null && entry.change_pct !== '' ? entry.change_pct + '%' : '-'}</td>`;
@@ -434,8 +444,19 @@ function cellForColumn(col, entry, hueStyle) {
     case 'sector':
       return `<td class="sector-bg" style="${hueStyle}">${entry.sector_tag}</td>`;
     case 'reason':
+      if (collapsedReasonDates.has(date)) {
+        return `<td class="reason-cell reason-collapsed sector-bg" style="${hueStyle}">···</td>`;
+      }
       return `<td class="reason-cell sector-bg" style="${hueStyle}">${reasonCellInner(entry.reason)}</td>`;
   }
+}
+
+function columnHeaderCell(col, date) {
+  if (col.key !== 'reason') return `<th class="field-head">${col.label}</th>`;
+  const collapsed = collapsedReasonDates.has(date);
+  return `<th class="field-head reason-toggle-head" data-date="${date}" title="클릭하면 이 날짜의 상승이유만 접거나 폅니다">
+    ${col.label} <span class="reason-toggle-icon">${collapsed ? '▸' : '▾'}</span>
+  </th>`;
 }
 
 function reasonCellInner(reason) {
@@ -468,8 +489,8 @@ function renderTable(data) {
   let html = '<table class="rank-table"><thead>';
   html += '<tr><th class="rank-head" rowspan="2">순위</th>' +
     dates.map(d => `<th class="date-head" colspan="${colCount}">${formatDate(d)}</th>`).join('') + '</tr>';
-  html += '<tr>' + dates.map(() =>
-    '<th class="field-head">종목</th>' + columns.map(c => `<th class="field-head">${c.label}</th>`).join('')
+  html += '<tr>' + dates.map(d =>
+    '<th class="field-head">종목</th>' + columns.map(c => columnHeaderCell(c, d)).join('')
   ).join('') + '</tr>';
   html += '</thead><tbody>';
 
@@ -483,12 +504,20 @@ function renderTable(data) {
       const streak = streakByDateName[`${d}|${entry.name}`] || 1;
       const streakBadge = streak > 1 ? `<span class="streak" title="${streak}일 연속 TOP30 등장">${streak}일</span>` : '';
       html += `<td class="name-cell sector-bg" style="${hueStyle}">${entry.name}${streakBadge}</td>`;
-      html += columns.map(c => cellForColumn(c, entry, hueStyle)).join('');
+      html += columns.map(c => cellForColumn(c, entry, hueStyle, d)).join('');
     }
     html += '</tr>';
   }
   html += '</tbody></table>';
-  document.getElementById('tableWrap').innerHTML = html;
+  const wrap = document.getElementById('tableWrap');
+  wrap.innerHTML = html;
+  wrap.onclick = (evt) => {
+    const head = evt.target.closest('.reason-toggle-head');
+    if (!head) return;
+    const d = head.dataset.date;
+    collapsedReasonDates.has(d) ? collapsedReasonDates.delete(d) : collapsedReasonDates.add(d);
+    renderTable(data);
+  };
 }
 
 // ---------- column visibility toggles ----------
