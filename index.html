@@ -103,7 +103,6 @@
   </div>
 
   <div id="tab-trend" class="tab-panel active">
-    <button type="button" id="exportExcelBtn" class="btn-export">⬇ 엑셀로 다운로드</button>
     <div class="card">
       <div class="filters">
         <label>보기 단위
@@ -127,6 +126,7 @@
         <label class="checkbox-label"><input type="checkbox" id="colCap" checked> 시가총액</label>
         <label class="checkbox-label"><input type="checkbox" id="colSector" checked> 섹터</label>
         <label class="checkbox-label"><input type="checkbox" id="colReason" checked> 상승이유</label>
+        <button type="button" id="exportExcelBtn" class="btn-export" style="margin:0 0 0 auto;">⬇ 엑셀로 다운로드</button>
       </div>
       <div id="tableWrap"></div>
     </div>
@@ -157,7 +157,6 @@
   </div>
 
   <div id="tab-daily" class="tab-panel">
-    <button type="button" id="exportDailyExcelBtn" class="btn-export">⬇ 엑셀로 다운로드</button>
     <div class="card">
       <div class="filters">
         <label>월
@@ -166,6 +165,7 @@
         <label>날짜
           <select id="daySelect"></select>
         </label>
+        <button type="button" id="exportDailyExcelBtn" class="btn-export" style="margin:0 0 0 auto;">⬇ 엑셀로 다운로드</button>
       </div>
       <div id="dailyTableWrap"></div>
     </div>
