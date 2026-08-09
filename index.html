@@ -84,6 +84,11 @@
     align-self: flex-end; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border);
     background: var(--card); color: var(--text); cursor: pointer; font-size: 0.8rem;
   }
+  .btn-export {
+    display: inline-block; margin-bottom: 14px; padding: 8px 16px; border-radius: 8px;
+    border: none; background: var(--accent); color: #fff; cursor: pointer;
+    font-size: 0.85rem; font-weight: 600;
+  }
   .checkbox-label { flex-direction: row !important; align-items: center; gap: 5px !important; color: var(--text); cursor: pointer; }
   .checkbox-label input { cursor: pointer; }
 </style>
@@ -98,6 +103,7 @@
   </div>
 
   <div id="tab-trend" class="tab-panel active">
+    <button type="button" id="exportExcelBtn" class="btn-export">⬇ 엑셀로 다운로드</button>
     <div class="card">
       <div class="filters">
         <label>보기 단위
@@ -121,7 +127,6 @@
         <label class="checkbox-label"><input type="checkbox" id="colCap" checked> 시가총액</label>
         <label class="checkbox-label"><input type="checkbox" id="colSector" checked> 섹터</label>
         <label class="checkbox-label"><input type="checkbox" id="colReason" checked> 상승이유</label>
-        <button type="button" id="exportExcelBtn" style="margin-left:auto;">엑셀로 다운로드</button>
       </div>
       <div id="tableWrap"></div>
     </div>
@@ -152,6 +157,7 @@
   </div>
 
   <div id="tab-daily" class="tab-panel">
+    <button type="button" id="exportDailyExcelBtn" class="btn-export">⬇ 엑셀로 다운로드</button>
     <div class="card">
       <div class="filters">
         <label>월
@@ -160,7 +166,6 @@
         <label>날짜
           <select id="daySelect"></select>
         </label>
-        <button type="button" id="exportDailyExcelBtn" style="margin-left:auto;">엑셀로 다운로드</button>
       </div>
       <div id="dailyTableWrap"></div>
     </div>
