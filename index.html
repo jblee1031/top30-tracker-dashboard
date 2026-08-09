@@ -85,6 +85,21 @@
 
   <div id="tab-trend" class="tab-panel active">
     <div class="card">
+      <div class="filters">
+        <label>보기 단위
+          <select id="periodMode">
+            <option value="all">전체 기간</option>
+            <option value="month">월별</option>
+            <option value="week">주별</option>
+          </select>
+        </label>
+        <label id="periodMonthWrap" style="display:none;">월
+          <select id="periodMonth"></select>
+        </label>
+        <label id="periodWeekWrap" style="display:none;">주
+          <select id="periodWeek"></select>
+        </label>
+      </div>
       <div class="legend" id="legend"></div>
       <div class="filters">
         <label>섹터
@@ -159,27 +174,21 @@ async function main() {
   }
 
   window.__data = data;
-  window.__streaks = computeStreaks(data);
+  window.__streaks = computeStreakByDateName(data.dates, data.boards); // full-history, used by the daily tab
   document.getElementById('meta').textContent =
     `최신 데이터: ${data.latest_date ?? '-'} · 누적 게시글 수: ${data.total_posts_ingested}`;
 
   setupTabs();
-  renderLegend(data);
-  renderTable(data);
-  setupFilters(data);
-  renderParetoGrid(data);
-  renderHeatmap(data);
-  renderMomentum(data);
-  renderThemeFrequency(data);
-  renderCapTrend(data);
+  setupPeriodControls(data);
   setupDailyTab(data);
 }
 
-function computeStreaks(data) {
+// ---------- streak helpers ----------
+function computeStreakByDateName(dates, boards) {
   const streakByDateName = {};
   const prevNames = new Map();
-  data.dates.forEach(d => {
-    const board = data.boards[d] || [];
+  dates.forEach(d => {
+    const board = boards[d] || [];
     const seenToday = new Map();
     board.forEach(e => {
       const streak = (prevNames.get(e.name) || 0) + 1;
@@ -190,6 +199,149 @@ function computeStreaks(data) {
     seenToday.forEach((v, k) => prevNames.set(k, v));
   });
   return streakByDateName;
+}
+
+function computeStreakStats(dates, boards) {
+  let running = {};
+  const max = {};
+  dates.forEach(d => {
+    const today = new Set((boards[d] || []).map(e => e.name));
+    const newRunning = {};
+    today.forEach(name => {
+      newRunning[name] = (running[name] || 0) + 1;
+      max[name] = Math.max(max[name] || 0, newRunning[name]);
+    });
+    running = newRunning;
+  });
+  return { current: running, max };
+}
+
+// ---------- period (전체/월별/주별) ----------
+const EOK = 100_000_000;
+function capBucket(won) {
+  if (!won) return null;
+  if (won < 1000 * EOK) return '1천억 미만';
+  if (won < 5000 * EOK) return '1천억~5천억';
+  if (won < 10000 * EOK) return '5천억~1조';
+  return '1조 이상';
+}
+
+function mondayOf(dateStr) {
+  const y = +dateStr.slice(0, 4), m = +dateStr.slice(4, 6) - 1, d = +dateStr.slice(6, 8);
+  const dt = new Date(y, m, d);
+  const day = dt.getDay();
+  dt.setDate(dt.getDate() + (day === 0 ? -6 : 1 - day));
+  return dt;
+}
+function weekKeyOf(dateStr) {
+  const mon = mondayOf(dateStr);
+  return `${mon.getFullYear()}${String(mon.getMonth() + 1).padStart(2, '0')}${String(mon.getDate()).padStart(2, '0')}`;
+}
+function weekLabelOf(weekKey) {
+  const y = +weekKey.slice(0, 4), m = +weekKey.slice(4, 6) - 1, d = +weekKey.slice(6, 8);
+  const mon = new Date(y, m, d);
+  const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+  const fmt = dt => `${dt.getMonth() + 1}/${dt.getDate()}`;
+  return `${fmt(mon)} ~ ${fmt(sun)}`;
+}
+
+function buildPeriodView(data, dates) {
+  const boards = {};
+  const sector_trend = {}, theme_trend = {}, cap_bucket_trend = {};
+  dates.forEach(d => {
+    boards[d] = data.boards[d] || [];
+    sector_trend[d] = data.sector_trend[d] || {};
+    theme_trend[d] = data.theme_trend[d] || {};
+    cap_bucket_trend[d] = data.cap_bucket_trend[d] || {};
+  });
+
+  const themeTotals = {};
+  const latestSector = {}, latestTheme = {}, latestCap = {};
+  dates.forEach(d => {
+    (boards[d] || []).forEach(e => {
+      if (e.theme_tag) themeTotals[e.theme_tag] = (themeTotals[e.theme_tag] || 0) + 1;
+      latestSector[e.name] = e.sector_tag;
+      if (e.theme_tag) latestTheme[e.name] = e.theme_tag;
+      if (e.market_cap != null) latestCap[e.name] = e.market_cap;
+    });
+  });
+
+  const theme_frequency = Object.entries(themeTotals)
+    .map(([theme, count]) => ({ theme, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 30);
+
+  const streaks = computeStreakStats(dates, boards);
+  const names = new Set();
+  dates.forEach(d => (boards[d] || []).forEach(e => names.add(e.name)));
+  const momentum_ranking = [...names]
+    .map(name => ({
+      name,
+      current_streak: streaks.current[name] || 0,
+      max_streak: streaks.max[name] || 0,
+      sector: latestSector[name] || '미상',
+      theme: latestTheme[name] || '',
+      market_cap: latestCap[name] ?? null,
+    }))
+    .filter(m => m.max_streak > 1)
+    .sort((a, b) => (b.current_streak - a.current_streak) || (b.max_streak - a.max_streak))
+    .slice(0, 30);
+
+  return {
+    dates, boards, sector_trend, theme_trend, cap_bucket_trend,
+    cap_bucket_labels: data.cap_bucket_labels,
+    theme_frequency, momentum_ranking,
+    latest_date: dates[dates.length - 1] || null,
+    total_posts_ingested: dates.length,
+  };
+}
+
+function setupPeriodControls(data) {
+  const modeSel = document.getElementById('periodMode');
+  const monthSel = document.getElementById('periodMonth');
+  const weekSel = document.getElementById('periodWeek');
+  const monthWrap = document.getElementById('periodMonthWrap');
+  const weekWrap = document.getElementById('periodWeekWrap');
+
+  const months = [...new Set(data.dates.map(d => d.slice(0, 6)))].sort();
+  months.forEach(m => monthSel.insertAdjacentHTML('beforeend',
+    `<option value="${m}">${m.slice(0, 4)}년 ${+m.slice(4, 6)}월</option>`));
+
+  const weekKeys = [...new Set(data.dates.map(weekKeyOf))].sort();
+  weekKeys.forEach(w => weekSel.insertAdjacentHTML('beforeend',
+    `<option value="${w}">${weekLabelOf(w)}</option>`));
+
+  if (months.length) monthSel.value = months[months.length - 1];
+  if (weekKeys.length) weekSel.value = weekKeys[weekKeys.length - 1];
+
+  function currentDates() {
+    if (modeSel.value === 'month') return data.dates.filter(d => d.slice(0, 6) === monthSel.value);
+    if (modeSel.value === 'week') return data.dates.filter(d => weekKeyOf(d) === weekSel.value);
+    return data.dates;
+  }
+
+  function refresh() {
+    monthWrap.style.display = modeSel.value === 'month' ? '' : 'none';
+    weekWrap.style.display = modeSel.value === 'week' ? '' : 'none';
+    renderTrendTab(buildPeriodView(data, currentDates()));
+  }
+
+  modeSel.addEventListener('change', refresh);
+  monthSel.addEventListener('change', refresh);
+  weekSel.addEventListener('change', refresh);
+
+  refresh();
+}
+
+function renderTrendTab(viewData) {
+  renderLegend(viewData);
+  renderTable(viewData);
+  setupFilters(viewData);
+  renderParetoGrid(viewData);
+  renderHeatmap(viewData);
+  renderMomentum(viewData);
+  renderThemeFrequency(viewData);
+  renderCapTrend(viewData);
 }
 
 // ---------- tabs ----------
@@ -232,7 +384,7 @@ function renderTable(data) {
     return;
   }
 
-  const streakByDateName = window.__streaks;
+  const streakByDateName = computeStreakByDateName(dates, data.boards);
   const maxRank = Math.max(30, ...dates.map(d => (data.boards[d] || []).length));
   const fields = ['종목', '상승률', '시가총액', '섹터', '상승이유'];
 
@@ -278,6 +430,11 @@ function setupFilters(data) {
   const themeSel = document.getElementById('filterTheme');
   const pctSel = document.getElementById('filterPct');
 
+  // reset (this runs again on every period change, so clear stale options first)
+  sectorSel.innerHTML = '<option value="">전체</option>';
+  themeSel.innerHTML = '<option value="">전체</option>';
+  pctSel.innerHTML = '<option value="">전체</option>';
+
   [...sectors].sort().forEach(s => sectorSel.insertAdjacentHTML('beforeend', `<option value="${s}">${s}</option>`));
   [...themes].sort().forEach(t => themeSel.insertAdjacentHTML('beforeend', `<option value="${t}">${t}</option>`));
   ['25% 이상', '20%~25%', '15%~20%', '10%~15%', '10% 미만'].forEach(p =>
@@ -293,11 +450,14 @@ function setupFilters(data) {
     });
   }
 
-  [sectorSel, themeSel, pctSel].forEach(sel => sel.addEventListener('change', applyFilters));
-  document.getElementById('filterReset').addEventListener('click', () => {
+  // assign (not addEventListener) so re-running setupFilters on period change doesn't stack handlers
+  sectorSel.onchange = applyFilters;
+  themeSel.onchange = applyFilters;
+  pctSel.onchange = applyFilters;
+  document.getElementById('filterReset').onclick = () => {
     sectorSel.value = ''; themeSel.value = ''; pctSel.value = '';
     applyFilters();
-  });
+  };
 }
 
 // ---------- 일자별 조회 tab ----------
@@ -451,9 +611,11 @@ function renderHeatmap(data) {
 }
 
 // ---------- momentum ranking ----------
+let momentumChartInstance = null;
 function renderMomentum(data) {
   const top = (data.momentum_ranking || []).slice(0, 15);
-  new Chart(document.getElementById('momentumChart'), {
+  if (momentumChartInstance) momentumChartInstance.destroy();
+  momentumChartInstance = new Chart(document.getElementById('momentumChart'), {
     type: 'bar',
     data: {
       labels: top.map(m => `${m.name} (${m.sector})`),
@@ -468,9 +630,11 @@ function renderMomentum(data) {
 }
 
 // ---------- theme frequency ----------
+let themeFreqChartInstance = null;
 function renderThemeFrequency(data) {
   const top = (data.theme_frequency || []).slice(0, 15);
-  new Chart(document.getElementById('themeFreqChart'), {
+  if (themeFreqChartInstance) themeFreqChartInstance.destroy();
+  themeFreqChartInstance = new Chart(document.getElementById('themeFreqChart'), {
     type: 'bar',
     data: {
       labels: top.map(t => t.theme),
@@ -485,6 +649,7 @@ function renderThemeFrequency(data) {
 }
 
 // ---------- market cap bucket trend ----------
+let capTrendChartInstance = null;
 function renderCapTrend(data) {
   const dates = data.dates;
   const labels = data.cap_bucket_labels || [];
@@ -493,7 +658,8 @@ function renderCapTrend(data) {
     data: dates.map(d => (data.cap_bucket_trend[d] || {})[label] || 0),
     backgroundColor: PALETTE[i % PALETTE.length],
   }));
-  new Chart(document.getElementById('capTrendChart'), {
+  if (capTrendChartInstance) capTrendChartInstance.destroy();
+  capTrendChartInstance = new Chart(document.getElementById('capTrendChart'), {
     type: 'bar',
     data: { labels: dates.map(formatDate), datasets },
     options: {
