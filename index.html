@@ -54,35 +54,88 @@
   .pareto-detail ul { margin: 4px 0 0; padding-left: 18px; }
 
   .rank-table td, .rank-table th { white-space: nowrap; }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .tab-btn {
+    padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--card); color: var(--text); cursor: pointer; font-size: 0.85rem;
+  }
+  .tab-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .filters { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; margin-bottom: 14px; font-size: 0.8rem; }
+  .filters label { display: flex; flex-direction: column; gap: 3px; color: var(--muted); }
+  .filters select {
+    padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border);
+    background: var(--card); color: var(--text); font-size: 0.82rem;
+  }
+  .filters button {
+    align-self: flex-end; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border);
+    background: var(--card); color: var(--text); cursor: pointer; font-size: 0.8rem;
+  }
+  td.dim { opacity: 0.1; }
 </style>
 </head>
 <body>
   <h1>몽당연필 TOP30 트렌드 대시보드</h1>
   <div class="sub" id="meta">불러오는 중…</div>
 
-  <div class="card">
-    <div class="legend" id="legend"></div>
-    <div id="tableWrap"></div>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="trend">전체 트렌드</button>
+    <button class="tab-btn" data-tab="daily">일자별 조회</button>
   </div>
 
-  <h2>일자별 섹터 Pareto (막대 클릭 시 해당 종목 표시)</h2>
-  <div class="grid" id="paretoGrid"></div>
-
-  <h2>섹터 히트맵 (일자 × 섹터, 종목 수)</h2>
-  <div class="card"><div id="heatmapWrap"></div></div>
-
-  <div class="grid" style="margin-top:16px;">
+  <div id="tab-trend" class="tab-panel active">
     <div class="card">
-      <h3>연속 등장(모멘텀) 랭킹</h3>
-      <canvas id="momentumChart"></canvas>
+      <div class="legend" id="legend"></div>
+      <div class="filters">
+        <label>섹터
+          <select id="filterSector"><option value="">전체</option></select>
+        </label>
+        <label>상승이유(테마)
+          <select id="filterTheme"><option value="">전체</option></select>
+        </label>
+        <label>상승률
+          <select id="filterPct"><option value="">전체</option></select>
+        </label>
+        <button type="button" id="filterReset">필터 초기화</button>
+      </div>
+      <div id="tableWrap"></div>
     </div>
-    <div class="card">
-      <h3>상승 테마 반복 빈도 (전체 기간)</h3>
-      <canvas id="themeFreqChart"></canvas>
+
+    <h2>일자별 섹터 Pareto (막대 클릭 시 해당 종목 표시)</h2>
+    <div class="grid" id="paretoGrid"></div>
+
+    <h2>섹터 히트맵 (일자 × 섹터, 종목 수)</h2>
+    <div class="card"><div id="heatmapWrap"></div></div>
+
+    <div class="grid" style="margin-top:16px;">
+      <div class="card">
+        <h3>연속 등장(모멘텀) 랭킹</h3>
+        <canvas id="momentumChart"></canvas>
+      </div>
+      <div class="card">
+        <h3>상승 테마 반복 빈도 (전체 기간)</h3>
+        <canvas id="themeFreqChart"></canvas>
+      </div>
+      <div class="card">
+        <h3>시가총액 구간 비중 변화</h3>
+        <canvas id="capTrendChart"></canvas>
+      </div>
     </div>
+  </div>
+
+  <div id="tab-daily" class="tab-panel">
     <div class="card">
-      <h3>시가총액 구간 비중 변화</h3>
-      <canvas id="capTrendChart"></canvas>
+      <div class="filters">
+        <label>월
+          <select id="monthSelect"></select>
+        </label>
+        <label>날짜
+          <select id="daySelect"></select>
+        </label>
+      </div>
+      <div id="dailyTableWrap"></div>
     </div>
   </div>
 
@@ -108,16 +161,49 @@ async function main() {
   }
 
   window.__data = data;
+  window.__streaks = computeStreaks(data);
   document.getElementById('meta').textContent =
     `최신 데이터: ${data.latest_date ?? '-'} · 누적 게시글 수: ${data.total_posts_ingested}`;
 
+  setupTabs();
   renderLegend(data);
   renderTable(data);
+  setupFilters(data);
   renderParetoGrid(data);
   renderHeatmap(data);
   renderMomentum(data);
   renderThemeFrequency(data);
   renderCapTrend(data);
+  setupDailyTab(data);
+}
+
+function computeStreaks(data) {
+  const streakByDateName = {};
+  const prevNames = new Map();
+  data.dates.forEach(d => {
+    const board = data.boards[d] || [];
+    const seenToday = new Map();
+    board.forEach(e => {
+      const streak = (prevNames.get(e.name) || 0) + 1;
+      seenToday.set(e.name, streak);
+      streakByDateName[`${d}|${e.name}`] = streak;
+    });
+    prevNames.clear();
+    seenToday.forEach((v, k) => prevNames.set(k, v));
+  });
+  return streakByDateName;
+}
+
+// ---------- tabs ----------
+function setupTabs() {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+    });
+  });
 }
 
 // ---------- legend ----------
@@ -131,6 +217,16 @@ function renderLegend(data) {
 }
 
 // ---------- main comparison table ----------
+function pctBucket(pct) {
+  if (pct == null || pct === '') return '';
+  const v = +pct;
+  if (v >= 25) return '25% 이상';
+  if (v >= 20) return '20%~25%';
+  if (v >= 15) return '15%~20%';
+  if (v >= 10) return '10%~15%';
+  return '10% 미만';
+}
+
 function renderTable(data) {
   const dates = data.dates;
   if (!dates.length) {
@@ -138,20 +234,7 @@ function renderTable(data) {
     return;
   }
 
-  const streakByDateName = {};
-  const prevNames = new Map();
-  dates.forEach(d => {
-    const board = data.boards[d] || [];
-    const seenToday = new Map();
-    board.forEach(e => {
-      const streak = (prevNames.get(e.name) || 0) + 1;
-      seenToday.set(e.name, streak);
-      streakByDateName[`${d}|${e.name}`] = streak;
-    });
-    prevNames.clear();
-    seenToday.forEach((v, k) => prevNames.set(k, v));
-  });
-
+  const streakByDateName = window.__streaks;
   const maxRank = Math.max(30, ...dates.map(d => (data.boards[d] || []).length));
   const fields = ['종목', '상승률', '시가총액', '섹터', '상승이유'];
 
@@ -170,17 +253,108 @@ function renderTable(data) {
       const hueStyle = `--hue:${hue};`;
       const streak = streakByDateName[`${d}|${entry.name}`] || 1;
       const streakBadge = streak > 1 ? `<span class="streak" title="${streak}일 연속 TOP30 등장">${streak}일</span>` : '';
+      const dataAttrs = `data-sector="${entry.sector_tag}" data-theme="${entry.theme_tag || ''}" data-pct="${pctBucket(entry.change_pct)}"`;
       html += `
-        <td class="name-cell sector-bg" style="${hueStyle}">${entry.name}${streakBadge}</td>
-        <td class="pct-cell sector-bg" style="${hueStyle}">${entry.change_pct != null && entry.change_pct !== '' ? entry.change_pct + '%' : '-'}</td>
-        <td class="sector-bg" style="${hueStyle}">${entry.market_cap_display || '-'}</td>
-        <td class="sector-bg" style="${hueStyle}">${entry.sector_tag}</td>
-        <td class="reason-cell sector-bg" style="${hueStyle}">${entry.reason || '-'}</td>`;
+        <td class="name-cell sector-bg" style="${hueStyle}" ${dataAttrs}>${entry.name}${streakBadge}</td>
+        <td class="pct-cell sector-bg" style="${hueStyle}" ${dataAttrs}>${entry.change_pct != null && entry.change_pct !== '' ? entry.change_pct + '%' : '-'}</td>
+        <td class="sector-bg" style="${hueStyle}" ${dataAttrs}>${entry.market_cap_display || '-'}</td>
+        <td class="sector-bg" style="${hueStyle}" ${dataAttrs}>${entry.sector_tag}</td>
+        <td class="reason-cell sector-bg" style="${hueStyle}" ${dataAttrs}>${entry.reason || '-'}</td>`;
     }
     html += '</tr>';
   }
   html += '</tbody></table>';
   document.getElementById('tableWrap').innerHTML = html;
+}
+
+// ---------- filters (섹터 / 상승이유 / 상승률) ----------
+function setupFilters(data) {
+  const sectors = new Set();
+  const themes = new Set();
+  Object.values(data.boards || {}).forEach(board => board.forEach(e => {
+    sectors.add(e.sector_tag);
+    if (e.theme_tag) themes.add(e.theme_tag);
+  }));
+
+  const sectorSel = document.getElementById('filterSector');
+  const themeSel = document.getElementById('filterTheme');
+  const pctSel = document.getElementById('filterPct');
+
+  [...sectors].sort().forEach(s => sectorSel.insertAdjacentHTML('beforeend', `<option value="${s}">${s}</option>`));
+  [...themes].sort().forEach(t => themeSel.insertAdjacentHTML('beforeend', `<option value="${t}">${t}</option>`));
+  ['25% 이상', '20%~25%', '15%~20%', '10%~15%', '10% 미만'].forEach(p =>
+    pctSel.insertAdjacentHTML('beforeend', `<option value="${p}">${p}</option>`));
+
+  function applyFilters() {
+    const sector = sectorSel.value, theme = themeSel.value, pct = pctSel.value;
+    document.querySelectorAll('#tableWrap td[data-sector]').forEach(td => {
+      const match = (!sector || td.dataset.sector === sector) &&
+        (!theme || td.dataset.theme === theme) &&
+        (!pct || td.dataset.pct === pct);
+      td.classList.toggle('dim', !match);
+    });
+  }
+
+  [sectorSel, themeSel, pctSel].forEach(sel => sel.addEventListener('change', applyFilters));
+  document.getElementById('filterReset').addEventListener('click', () => {
+    sectorSel.value = ''; themeSel.value = ''; pctSel.value = '';
+    applyFilters();
+  });
+}
+
+// ---------- 일자별 조회 tab ----------
+function setupDailyTab(data) {
+  const monthSel = document.getElementById('monthSelect');
+  const daySel = document.getElementById('daySelect');
+  const months = [...new Set(data.dates.map(d => d.slice(0, 6)))].sort();
+
+  months.forEach(m => monthSel.insertAdjacentHTML('beforeend',
+    `<option value="${m}">${m.slice(0,4)}년 ${+m.slice(4,6)}월</option>`));
+
+  function populateDays() {
+    daySel.innerHTML = '';
+    const daysInMonth = data.dates.filter(d => d.slice(0, 6) === monthSel.value);
+    daysInMonth.forEach(d =>
+      daySel.insertAdjacentHTML('beforeend', `<option value="${d}">${formatDate(d)}</option>`));
+    if (daysInMonth.length) daySel.value = daysInMonth[daysInMonth.length - 1]; // default: latest day in month
+    renderDailyTable(data, daySel.value);
+  }
+
+  monthSel.addEventListener('change', populateDays);
+  daySel.addEventListener('change', () => renderDailyTable(data, daySel.value));
+
+  if (months.length) {
+    monthSel.value = months[months.length - 1];
+    populateDays();
+  } else {
+    document.getElementById('dailyTableWrap').innerHTML = '<div class="empty">데이터 없음</div>';
+  }
+}
+
+function renderDailyTable(data, date) {
+  const wrap = document.getElementById('dailyTableWrap');
+  if (!date) { wrap.innerHTML = '<div class="empty">날짜를 선택하세요.</div>'; return; }
+  const board = [...(data.boards[date] || [])].sort((a, b) => a.rank - b.rank);
+  if (!board.length) { wrap.innerHTML = '<div class="empty">해당 날짜 데이터 없음</div>'; return; }
+
+  let html = `<table class="rank-table"><thead><tr>
+    <th>순위</th><th>종목</th><th>상승률</th><th>시가총액</th><th>섹터</th><th>상승이유</th>
+  </tr></thead><tbody>`;
+  board.forEach(entry => {
+    const hue = hashHue(entry.sector_tag);
+    const streak = window.__streaks[`${date}|${entry.name}`] || 1;
+    const streakBadge = streak > 1 ? `<span class="streak" title="${streak}일 연속 TOP30 등장">${streak}일</span>` : '';
+    html += `<tr>
+      <td class="rank-cell">${entry.rank}</td>
+      <td class="name-cell sector-bg" style="--hue:${hue};">${entry.name}${streakBadge}</td>
+      <td class="pct-cell sector-bg" style="--hue:${hue};">${entry.change_pct != null && entry.change_pct !== '' ? entry.change_pct + '%' : '-'}</td>
+      <td class="sector-bg" style="--hue:${hue};">${entry.market_cap_display || '-'}</td>
+      <td class="sector-bg" style="--hue:${hue};">${entry.sector_tag}</td>
+      <td class="reason-cell sector-bg" style="--hue:${hue};">${entry.reason || '-'}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
 }
 
 // ---------- per-date sector Pareto ----------
