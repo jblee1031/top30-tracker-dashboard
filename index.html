@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TOP30 트렌드 대시보드</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
   :root {
     --bg: #f7f7f8; --card: #ffffff; --text: #1a1a1a; --muted: #666;
@@ -38,6 +39,14 @@
   td.reason-cell {
     text-align: left; white-space: normal; word-break: keep-all; overflow-wrap: anywhere;
     max-width: 280px; min-width: 200px; font-size: 0.76rem; color: var(--text); line-height: 1.45;
+  }
+  .reason-text {
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  td.reason-cell.expanded .reason-text { -webkit-line-clamp: unset; overflow: visible; }
+  .toggle-reason {
+    display: inline-block; margin-top: 2px; font-size: 0.7rem; color: var(--accent);
+    cursor: pointer; user-select: none;
   }
   td.sector-bg { background: hsl(var(--hue) 65% 88%); }
   @media (prefers-color-scheme: dark) {
@@ -108,6 +117,7 @@
         <label class="checkbox-label"><input type="checkbox" id="colCap" checked> 시가총액</label>
         <label class="checkbox-label"><input type="checkbox" id="colSector" checked> 섹터</label>
         <label class="checkbox-label"><input type="checkbox" id="colReason" checked> 상승이유</label>
+        <button type="button" id="exportExcelBtn" style="margin-left:auto;">엑셀로 다운로드</button>
       </div>
       <div id="tableWrap"></div>
     </div>
@@ -146,6 +156,7 @@
         <label>날짜
           <select id="daySelect"></select>
         </label>
+        <button type="button" id="exportDailyExcelBtn" style="margin-left:auto;">엑셀로 다운로드</button>
       </div>
       <div id="dailyTableWrap"></div>
     </div>
@@ -179,6 +190,7 @@ async function main() {
 
   setupTabs();
   setupPeriodControls(data);
+  setupExcelExport();
   setupDailyTab(data);
 }
 
@@ -333,6 +345,7 @@ function setupPeriodControls(data) {
 }
 
 function renderTrendTab(viewData) {
+  window.__currentView = viewData; // used by the Excel export button
   renderLegend(viewData);
   setupColumnToggles(viewData);
   renderTable(viewData);
@@ -341,6 +354,38 @@ function renderTrendTab(viewData) {
   renderMomentum(viewData);
   renderThemeFrequency(viewData);
   renderCapTrend(viewData);
+}
+
+// ---------- Excel export ----------
+function setupExcelExport() {
+  document.getElementById('exportExcelBtn').onclick = () => {
+    const view = window.__currentView;
+    if (!view || !view.dates.length) return;
+
+    const rows = [];
+    view.dates.forEach(d => {
+      (view.boards[d] || []).slice().sort((a, b) => a.rank - b.rank).forEach(e => {
+        rows.push({
+          '날짜': formatDate(d),
+          '순위': e.rank,
+          '종목': e.name,
+          '상승률(%)': e.change_pct,
+          '시가총액': e.market_cap_display,
+          '섹터': e.sector_tag,
+          '상승테마': e.theme_tag || '',
+          '상승이유': e.reason || '',
+        });
+      });
+    });
+
+    const ws = XLSX.utils.json_to_sheet(rows);
+    ws['!cols'] = [{ wch: 11 }, { wch: 5 }, { wch: 16 }, { wch: 9 }, { wch: 9 }, { wch: 16 }, { wch: 16 }, { wch: 60 }];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'TOP30');
+
+    const range = view.dates.length > 1 ? `${formatDate(view.dates[0])}_${formatDate(view.dates[view.dates.length - 1])}` : formatDate(view.dates[0]);
+    XLSX.writeFile(wb, `TOP30_${range}.xlsx`);
+  };
 }
 
 // ---------- tabs ----------
@@ -389,9 +434,24 @@ function cellForColumn(col, entry, hueStyle) {
     case 'sector':
       return `<td class="sector-bg" style="${hueStyle}">${entry.sector_tag}</td>`;
     case 'reason':
-      return `<td class="reason-cell sector-bg" style="${hueStyle}">${entry.reason || '-'}</td>`;
+      return `<td class="reason-cell sector-bg" style="${hueStyle}">${reasonCellInner(entry.reason)}</td>`;
   }
 }
+
+function reasonCellInner(reason) {
+  if (!reason) return '-';
+  return `<span class="reason-text">${reason}</span><span class="toggle-reason">더보기</span>`;
+}
+
+// Delegated click handler for the "더보기/접기" toggle — attached once,
+// works for cells re-rendered later (main table, daily table).
+document.addEventListener('click', (evt) => {
+  const toggle = evt.target.closest('.toggle-reason');
+  if (!toggle) return;
+  const cell = toggle.closest('td.reason-cell');
+  cell.classList.toggle('expanded');
+  toggle.textContent = cell.classList.contains('expanded') ? '접기' : '더보기';
+});
 
 function renderTable(data) {
   const dates = data.dates;
@@ -459,6 +519,20 @@ function setupDailyTab(data) {
   monthSel.addEventListener('change', populateDays);
   daySel.addEventListener('change', () => renderDailyTable(data, daySel.value));
 
+  document.getElementById('exportDailyExcelBtn').onclick = () => {
+    if (!daySel.value) return;
+    const board = [...(data.boards[daySel.value] || [])].sort((a, b) => a.rank - b.rank);
+    const rows = board.map(e => ({
+      '순위': e.rank, '종목': e.name, '상승률(%)': e.change_pct, '시가총액': e.market_cap_display,
+      '섹터': e.sector_tag, '상승테마': e.theme_tag || '', '상승이유': e.reason || '',
+    }));
+    const ws = XLSX.utils.json_to_sheet(rows);
+    ws['!cols'] = [{ wch: 5 }, { wch: 16 }, { wch: 9 }, { wch: 9 }, { wch: 16 }, { wch: 16 }, { wch: 60 }];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'TOP30');
+    XLSX.writeFile(wb, `TOP30_${formatDate(daySel.value)}.xlsx`);
+  };
+
   if (months.length) {
     monthSel.value = months[months.length - 1];
     populateDays();
@@ -486,7 +560,7 @@ function renderDailyTable(data, date) {
       <td class="pct-cell sector-bg" style="--hue:${hue};">${entry.change_pct != null && entry.change_pct !== '' ? entry.change_pct + '%' : '-'}</td>
       <td class="sector-bg" style="--hue:${hue};">${entry.market_cap_display || '-'}</td>
       <td class="sector-bg" style="--hue:${hue};">${entry.sector_tag}</td>
-      <td class="reason-cell sector-bg" style="--hue:${hue};">${entry.reason || '-'}</td>
+      <td class="reason-cell sector-bg" style="--hue:${hue};">${reasonCellInner(entry.reason)}</td>
     </tr>`;
   });
   html += '</tbody></table>';
