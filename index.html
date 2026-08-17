@@ -752,12 +752,90 @@ function renderParetoGrid(data) {
       },
     });
   });
+
+  renderAggregateParetoCard(data);
+}
+
+// One extra card at the end of the grid: same Pareto shape, but summed
+// across every date currently in view (not just one day) — click a bar to
+// see every matching stock across the whole period, grouped by date.
+function renderAggregateParetoCard(data) {
+  const dates = data.dates; // ascending
+  if (dates.length < 2) return; // nothing to aggregate beyond the single per-date card already shown
+
+  const totals = {};
+  dates.forEach(d => Object.entries(data.sector_trend[d] || {}).forEach(([s, v]) => { totals[s] = (totals[s] || 0) + v; }));
+  const sorted = Object.entries(totals).sort((a, b) => b[1] - a[1]);
+  if (!sorted.length) return;
+
+  const total = sorted.reduce((s, [, v]) => s + v, 0);
+  let running = 0;
+  const cumPct = sorted.map(([, v]) => { running += v; return +(running / total * 100).toFixed(1); });
+
+  const grid = document.getElementById('paretoGrid');
+  const card = document.createElement('div');
+  card.className = 'card pareto-card';
+  card.innerHTML = `<h3>${formatDate(dates[0])} ~ ${formatDate(dates[dates.length - 1])} 전체 합계</h3><canvas id="pareto-aggregate"></canvas>
+    <div class="pareto-detail" id="detail-aggregate"><span class="hint">막대를 클릭하면 전체 구간의 해당 섹터 종목이 표시됩니다.</span></div>`;
+  grid.appendChild(card);
+
+  new Chart(document.getElementById('pareto-aggregate'), {
+    data: {
+      labels: sorted.map(([s]) => s),
+      datasets: [
+        {
+          type: 'bar',
+          label: '종목 수',
+          data: sorted.map(([, v]) => v),
+          backgroundColor: sorted.map(([s]) => `hsl(${sectorHue(s)} 65% 60%)`),
+          yAxisID: 'y',
+        },
+        {
+          type: 'line',
+          label: '누적 %',
+          data: cumPct,
+          borderColor: '#888',
+          borderWidth: 1.5,
+          pointRadius: 2,
+          yAxisID: 'y1',
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      onClick: (evt, elements, chart) => {
+        const pts = chart.getElementsAtEventForMode(evt, 'nearest', {intersect: true}, true);
+        if (!pts.length) return;
+        showAggregateSectorDetail(dates, sorted[pts[0].index][0], 'detail-aggregate');
+      },
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { autoSkip: false, maxRotation: 60, minRotation: 40, font: { size: 9 } } },
+        y: { beginAtZero: true, ticks: { stepSize: 1 } },
+        y1: { position: 'right', min: 0, max: 100, grid: { drawOnChartArea: false }, ticks: { callback: v => v + '%' } },
+      },
+    },
+  });
 }
 
 function sectorDetailHTML(date, sector) {
   const board = boardFor(date).filter(e => e.sector_tag === sector).sort((a, b) => a.rank - b.rank);
   return `<strong>${formatDate(date)} · ${sector}</strong> (${board.length}개)<ul>` +
     board.map(e => `<li><strong>${e.name}</strong> · ${e.change_pct}% · ${e.market_cap_display || '-'}<br>
+      <span style="color:var(--muted);">${e.reason || '-'}</span></li>`).join('') +
+    '</ul>';
+}
+
+// Same shape as sectorDetailHTML but spans every date in `dates` — each
+// entry is labelled with its own date since results now span multiple days.
+function aggregateSectorDetailHTML(dates, sector) {
+  const rows = [];
+  dates.forEach(d => {
+    boardFor(d).filter(e => e.sector_tag === sector).forEach(e => rows.push({ date: d, ...e }));
+  });
+  const rangeLabel = dates.length > 1 ? `${formatDate(dates[0])} ~ ${formatDate(dates[dates.length - 1])}` : formatDate(dates[0]);
+  return `<strong>${rangeLabel} 전체 · ${sector}</strong> (${rows.length}개)<ul>` +
+    rows.map(e => `<li><strong>${formatDate(e.date)} · ${e.name}</strong> · ${e.change_pct}% · ${e.market_cap_display || '-'}<br>
       <span style="color:var(--muted);">${e.reason || '-'}</span></li>`).join('') +
     '</ul>';
 }
@@ -770,6 +848,10 @@ function showHeatmapDetail(date, sector) {
   document.getElementById('heatmapDetail').innerHTML = sectorDetailHTML(date, sector);
 }
 
+function showAggregateSectorDetail(dates, sector, targetId) {
+  document.getElementById(targetId).innerHTML = aggregateSectorDetailHTML(dates, sector);
+}
+
 // ---------- sector heatmap ----------
 function renderHeatmap(data) {
   const dates = data.dates;
@@ -778,7 +860,7 @@ function renderHeatmap(data) {
   const sectors = Object.keys(totals).sort((a, b) => totals[b] - totals[a]).slice(0, 20);
   const maxVal = Math.max(1, ...dates.flatMap(d => sectors.map(s => (data.sector_trend[d] || {})[s] || 0)));
 
-  let html = '<table><thead><tr><th>섹터</th>' + dates.map(d => `<th>${formatDate(d)}</th>`).join('') + '</tr></thead><tbody>';
+  let html = '<table><thead><tr><th>섹터</th>' + dates.map(d => `<th>${formatDate(d)}</th>`).join('') + '<th>합계</th></tr></thead><tbody>';
   sectors.forEach(s => {
     html += `<tr><td style="text-align:left;">${s}</td>`;
     dates.forEach(d => {
@@ -787,12 +869,15 @@ function renderHeatmap(data) {
       const clickable = v ? `data-date="${d}" data-sector="${s}" style="cursor:pointer;background:hsl(${sectorHue(s)} 70% 50% / ${alpha});"` : `style="background:hsl(${sectorHue(s)} 70% 50% / ${alpha});"`;
       html += `<td ${clickable}>${v || ''}</td>`;
     });
+    html += `<td data-total="1" data-sector="${s}" style="cursor:pointer;font-weight:600;background:hsl(${sectorHue(s)} 70% 50% / 0.12);">${totals[s]}</td>`;
     html += '</tr>';
   });
   html += '</tbody></table>';
   const wrap = document.getElementById('heatmapWrap');
   wrap.innerHTML = html;
   wrap.onclick = (evt) => {
+    const totalCell = evt.target.closest('td[data-total]');
+    if (totalCell) { showAggregateSectorDetail(dates, totalCell.dataset.sector, 'heatmapDetail'); return; }
     const cell = evt.target.closest('td[data-date]');
     if (cell) showHeatmapDetail(cell.dataset.date, cell.dataset.sector);
   };
