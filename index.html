@@ -206,10 +206,48 @@ function sectorHue(sector) {
   return Math.round((baseHue + offset + 360) % 360);
 }
 
+// ---------- monthly board files (lazy-loaded) ----------
+// `summary.json` only carries compact, full-history aggregates. The heavy
+// per-stock detail (incl. full reason_comment text) lives one file per
+// month under boards/YYYYMM.json and is fetched only for whatever period
+// is actually being viewed, so page weight stays flat as history grows.
+const boardCache = new Map(); // yyyymm -> {date: [board rows...]}
+
+async function fetchMonth(ym) {
+  if (boardCache.has(ym)) return boardCache.get(ym);
+  let json = {};
+  try {
+    const res = await fetch(`data/boards/${ym}.json`, {cache: 'no-store'});
+    if (res.ok) json = await res.json();
+  } catch (e) { /* leave empty; that month just renders as no data */ }
+  boardCache.set(ym, json);
+  return json;
+}
+
+async function ensureMonths(months) {
+  await Promise.all([...new Set(months)].filter(ym => !boardCache.has(ym)).map(fetchMonth));
+}
+
+function boardFor(date) {
+  return (boardCache.get(date.slice(0, 6)) || {})[date] || [];
+}
+
+function boardsSlice(dates) {
+  const out = {};
+  dates.forEach(d => { out[d] = boardFor(d); });
+  return out;
+}
+
+function prevMonth(ym) {
+  const y = +ym.slice(0, 4), m = +ym.slice(4, 6);
+  const d = new Date(y, m - 2, 1); // m is 1-based; -2 -> previous month, 0-based
+  return `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+
 async function main() {
   let data;
   try {
-    const res = await fetch('data/latest.json', {cache: 'no-store'});
+    const res = await fetch('data/summary.json', {cache: 'no-store'});
     if (!res.ok) throw new Error('no data yet');
     data = await res.json();
   } catch (e) {
@@ -219,14 +257,13 @@ async function main() {
   }
 
   window.__data = data;
-  window.__streaks = computeStreakByDateName(data.dates, data.boards); // full-history, used by the daily tab
   document.getElementById('meta').textContent =
     `최신 데이터: ${data.latest_date ?? '-'} · 누적 게시글 수: ${data.total_posts_ingested}`;
 
   setupTabs();
-  setupPeriodControls(data);
+  await setupPeriodControls(data);
   setupExcelExport();
-  setupDailyTab(data);
+  await setupDailyTab(data);
 }
 
 // ---------- streak helpers ----------
@@ -292,10 +329,9 @@ function weekLabelOf(weekKey) {
 }
 
 function buildPeriodView(data, dates) {
-  const boards = {};
+  const boards = boardsSlice(dates); // requires ensureMonths(needed months) to have resolved already
   const sector_trend = {}, theme_trend = {}, cap_bucket_trend = {};
   dates.forEach(d => {
-    boards[d] = data.boards[d] || [];
     sector_trend[d] = data.sector_trend[d] || {};
     theme_trend[d] = data.theme_trend[d] || {};
     cap_bucket_trend[d] = data.cap_bucket_trend[d] || {};
@@ -342,7 +378,7 @@ function buildPeriodView(data, dates) {
   };
 }
 
-function setupPeriodControls(data) {
+async function setupPeriodControls(data) {
   const modeSel = document.getElementById('periodMode');
   const monthSel = document.getElementById('periodMonth');
   const weekSel = document.getElementById('periodWeek');
@@ -359,6 +395,10 @@ function setupPeriodControls(data) {
 
   if (months.length) monthSel.value = months[months.length - 1];
   if (weekKeys.length) weekSel.value = weekKeys[weekKeys.length - 1];
+  // Default to the latest month rather than full history — "전체 기간"
+  // downloads every month's board file, so it's an opt-in choice, not the
+  // default landing view.
+  modeSel.value = 'month';
 
   function currentDates() {
     if (modeSel.value === 'month') return data.dates.filter(d => d.slice(0, 6) === monthSel.value);
@@ -366,9 +406,16 @@ function setupPeriodControls(data) {
     return data.dates;
   }
 
-  function refresh() {
+  function neededMonths() {
+    if (modeSel.value === 'all') return data.board_months || months;
+    return [...new Set(currentDates().map(d => d.slice(0, 6)))];
+  }
+
+  async function refresh() {
     monthWrap.style.display = modeSel.value === 'month' ? '' : 'none';
     weekWrap.style.display = modeSel.value === 'week' ? '' : 'none';
+    document.getElementById('tableWrap').innerHTML = '<div class="empty">불러오는 중…</div>';
+    await ensureMonths(neededMonths());
     renderTrendTab(buildPeriodView(data, currentDates()));
   }
 
@@ -376,7 +423,7 @@ function setupPeriodControls(data) {
   monthSel.addEventListener('change', refresh);
   weekSel.addEventListener('change', refresh);
 
-  refresh();
+  await refresh();
 }
 
 function renderTrendTab(viewData) {
@@ -567,12 +614,17 @@ function setupDailyTab(data) {
   months.forEach(m => monthSel.insertAdjacentHTML('beforeend',
     `<option value="${m}">${m.slice(0,4)}년 ${+m.slice(4,6)}월</option>`));
 
-  function populateDays() {
+  async function populateDays() {
     daySel.innerHTML = '';
     const daysInMonth = data.dates.filter(d => d.slice(0, 6) === monthSel.value);
     daysInMonth.forEach(d =>
       daySel.insertAdjacentHTML('beforeend', `<option value="${d}">${formatDate(d)}</option>`));
     if (daysInMonth.length) daySel.value = daysInMonth[daysInMonth.length - 1]; // default: latest day in month
+    document.getElementById('dailyTableWrap').innerHTML = '<div class="empty">불러오는 중…</div>';
+    // Also load the previous month so a streak badge on the 1st of the
+    // month can still see the last trading day before it.
+    const wantedMonths = [monthSel.value, prevMonth(monthSel.value)].filter(ym => (data.board_months || []).includes(ym));
+    await ensureMonths(wantedMonths);
     renderDailyTable(data, daySel.value);
   }
 
@@ -581,7 +633,7 @@ function setupDailyTab(data) {
 
   document.getElementById('exportDailyExcelBtn').onclick = () => {
     if (!daySel.value) return;
-    const board = [...(data.boards[daySel.value] || [])].sort((a, b) => a.rank - b.rank);
+    const board = [...boardFor(daySel.value)].sort((a, b) => a.rank - b.rank);
     const rows = board.map(e => ({
       '순위': e.rank, '종목': e.name, '상승률(%)': e.change_pct, '시가총액': e.market_cap_display,
       '섹터': e.sector_tag, '상승테마': e.theme_tag || '', '상승이유': e.reason || '',
@@ -595,24 +647,35 @@ function setupDailyTab(data) {
 
   if (months.length) {
     monthSel.value = months[months.length - 1];
-    populateDays();
+    return populateDays();
   } else {
     document.getElementById('dailyTableWrap').innerHTML = '<div class="empty">데이터 없음</div>';
   }
 }
 
+// Streak lookup for the daily tab: computed over whichever months are
+// currently loaded (selected month + previous month), not full history —
+// correct at month boundaries without requiring the whole history in memory.
+function dailyStreak(data, date) {
+  const ym = date.slice(0, 6);
+  const windowDates = data.dates.filter(d => d.slice(0, 6) === ym || d.slice(0, 6) === prevMonth(ym));
+  const streakByDateName = computeStreakByDateName(windowDates, boardsSlice(windowDates));
+  return streakByDateName;
+}
+
 function renderDailyTable(data, date) {
   const wrap = document.getElementById('dailyTableWrap');
   if (!date) { wrap.innerHTML = '<div class="empty">날짜를 선택하세요.</div>'; return; }
-  const board = [...(data.boards[date] || [])].sort((a, b) => a.rank - b.rank);
+  const board = [...boardFor(date)].sort((a, b) => a.rank - b.rank);
   if (!board.length) { wrap.innerHTML = '<div class="empty">해당 날짜 데이터 없음</div>'; return; }
 
+  const streaks = dailyStreak(data, date);
   let html = `<table class="rank-table"><thead><tr>
     <th>순위</th><th>종목</th><th>상승률</th><th>시가총액</th><th>섹터</th><th>상승이유</th>
   </tr></thead><tbody>`;
   board.forEach(entry => {
     const hue = sectorHue(entry.sector_tag);
-    const streak = window.__streaks[`${date}|${entry.name}`] || 1;
+    const streak = streaks[`${date}|${entry.name}`] || 1;
     const streakBadge = streak > 1 ? `<span class="streak" title="${streak}일 연속 TOP30 등장">${streak}일</span>` : '';
     html += `<tr>
       <td class="rank-cell">${entry.rank}</td>
@@ -692,7 +755,7 @@ function renderParetoGrid(data) {
 }
 
 function sectorDetailHTML(date, sector) {
-  const board = (window.__data.boards[date] || []).filter(e => e.sector_tag === sector).sort((a, b) => a.rank - b.rank);
+  const board = boardFor(date).filter(e => e.sector_tag === sector).sort((a, b) => a.rank - b.rank);
   return `<strong>${formatDate(date)} · ${sector}</strong> (${board.length}개)<ul>` +
     board.map(e => `<li><strong>${e.name}</strong> · ${e.change_pct}% · ${e.market_cap_display || '-'}<br>
       <span style="color:var(--muted);">${e.reason || '-'}</span></li>`).join('') +
