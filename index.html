@@ -62,6 +62,7 @@
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
   .pareto-card h3 { font-size: 0.9rem; margin: 0 0 8px; }
   .pareto-card canvas { max-height: 220px; }
+  #paretoAggregateWrap canvas { max-height: 440px; }
   .pareto-detail { margin-top: 8px; font-size: 0.78rem; border-top: 1px dashed var(--border); padding-top: 8px; min-height: 1.2em; }
   .pareto-detail .hint { color: var(--muted); }
   .pareto-detail ul { margin: 4px 0 0; padding-left: 18px; }
@@ -133,6 +134,12 @@
 
     <h2>일자별 섹터 Pareto (막대 클릭 시 해당 종목 표시)</h2>
     <div class="grid" id="paretoGrid"></div>
+
+    <h2 id="paretoAggregateTitle" style="display:none;">조회 구간 전체 합계 Pareto (막대 클릭 시 해당 종목 표시)</h2>
+    <div class="card" id="paretoAggregateWrap" style="display:none;">
+      <canvas id="pareto-aggregate"></canvas>
+      <div class="pareto-detail" id="detail-aggregate"><span class="hint">막대를 클릭하면 전체 구간의 해당 섹터 종목이 표시됩니다.</span></div>
+    </div>
 
     <h2>섹터 히트맵 (일자 × 섹터, 종목 수 — 칸 클릭 시 해당 종목 표시)</h2>
     <div class="card">
@@ -756,30 +763,37 @@ function renderParetoGrid(data) {
   renderAggregateParetoCard(data);
 }
 
-// One extra card at the end of the grid: same Pareto shape, but summed
-// across every date currently in view (not just one day) — click a bar to
-// see every matching stock across the whole period, grouped by date.
+// Standalone section below the per-date grid (not one of its small cards):
+// same Pareto shape, but summed across every date currently in view — click
+// a bar to see every matching stock across the whole period, grouped by date.
+let paretoAggregateChartInstance = null;
 function renderAggregateParetoCard(data) {
   const dates = data.dates; // ascending
-  if (dates.length < 2) return; // nothing to aggregate beyond the single per-date card already shown
+  const titleEl = document.getElementById('paretoAggregateTitle');
+  const wrap = document.getElementById('paretoAggregateWrap');
 
   const totals = {};
   dates.forEach(d => Object.entries(data.sector_trend[d] || {}).forEach(([s, v]) => { totals[s] = (totals[s] || 0) + v; }));
   const sorted = Object.entries(totals).sort((a, b) => b[1] - a[1]);
-  if (!sorted.length) return;
+
+  if (dates.length < 2 || !sorted.length) {
+    // nothing to aggregate beyond the single per-date card already shown
+    titleEl.style.display = 'none';
+    wrap.style.display = 'none';
+    if (paretoAggregateChartInstance) { paretoAggregateChartInstance.destroy(); paretoAggregateChartInstance = null; }
+    return;
+  }
+
+  titleEl.textContent = `조회 구간 전체 합계 Pareto — ${formatDate(dates[0])} ~ ${formatDate(dates[dates.length - 1])} (막대 클릭 시 해당 종목 표시)`;
+  titleEl.style.display = '';
+  wrap.style.display = '';
 
   const total = sorted.reduce((s, [, v]) => s + v, 0);
   let running = 0;
   const cumPct = sorted.map(([, v]) => { running += v; return +(running / total * 100).toFixed(1); });
 
-  const grid = document.getElementById('paretoGrid');
-  const card = document.createElement('div');
-  card.className = 'card pareto-card';
-  card.innerHTML = `<h3>${formatDate(dates[0])} ~ ${formatDate(dates[dates.length - 1])} 전체 합계</h3><canvas id="pareto-aggregate"></canvas>
-    <div class="pareto-detail" id="detail-aggregate"><span class="hint">막대를 클릭하면 전체 구간의 해당 섹터 종목이 표시됩니다.</span></div>`;
-  grid.appendChild(card);
-
-  new Chart(document.getElementById('pareto-aggregate'), {
+  if (paretoAggregateChartInstance) paretoAggregateChartInstance.destroy();
+  paretoAggregateChartInstance = new Chart(document.getElementById('pareto-aggregate'), {
     data: {
       labels: sorted.map(([s]) => s),
       datasets: [
