@@ -2414,5 +2414,307 @@
       "theme_tag": "개별 등락",
       "reason": "바이오&리드프레임사업, 단기차입금 350억 원을 전액 상환 발표, 개별 등락"
     }
+  ],
+  "20260911": [
+    {
+      "rank": 1,
+      "name": "에스피소프트",
+      "change_pct": "29.99",
+      "sector_tag": "SW관련주",
+      "market_cap": 110000000000,
+      "market_cap_display": "1100억",
+      "theme_tag": "보안관련주",
+      "reason": "클라우드&솔루션사업, 젠슨 황 엔비디아 최고경영자(CEO)가 인공지능(AI) 기술의 차세대 핵심 시장으로 사이버보안을 지목 ⇨ 보안 솔루션·보안관제·보안 소프트웨어 개발을 수행 ⇨ 보안관련주 부각"
+    },
+    {
+      "rank": 2,
+      "name": "아모텍",
+      "change_pct": "29.98",
+      "sector_tag": "전자장비관련주",
+      "market_cap": 280000000000,
+      "market_cap_display": "2800억",
+      "theme_tag": "MLCC관련주",
+      "reason": "전자소재사업, 핵심 성장 동력인 적층세라믹캐패시터(MLCC) 매출의 꾸준한 성장세와 광네트워크 관련 매출이 빠르게 성장할 것으로 기대(IBK투자증권 리포트 발행) ⇨ MLCC관련주 부각"
+    },
+    {
+      "rank": 3,
+      "name": "알파칩스",
+      "change_pct": "29.95",
+      "sector_tag": "반도체관련주",
+      "market_cap": 90000000000,
+      "market_cap_display": "900억",
+      "theme_tag": "광반도체관련주",
+      "reason": "시스템반도체개발사업, 관계회사 포스텍의 차세대 인공지능(AI) 반도체 핵심기술인 광인터커넥트 'CPO(Co-Packaged Optics)' 관련 부품의 양산으로 수혜 기대감 ⇨ 광반도체관련주 부각"
+    },
+    {
+      "rank": 4,
+      "name": "엑스게이트",
+      "change_pct": "29.94",
+      "sector_tag": "SW관련주",
+      "market_cap": 450000000000,
+      "market_cap_display": "4500억",
+      "theme_tag": "보안관련주",
+      "reason": "네트워크보안솔루션사업, 젠슨 황 엔비디아 최고경영자(CEO)가 인공지능(AI) 기술의 차세대 핵심 시장으로 사이버보안을 지목 ⇨ 네트워크 보안·방화벽·VPN·보안 게이트웨이 전문기업 ⇨ 보안관련주 부각"
+    },
+    {
+      "rank": 5,
+      "name": "카티스",
+      "change_pct": "29.91",
+      "sector_tag": "IT보안관련주",
+      "market_cap": 20000000000,
+      "market_cap_display": "200억",
+      "theme_tag": "보안관련주",
+      "reason": "보안플랫폼사업, 로봇 신사업, 올해 상반기를 실적 저점으로 인공지능(AI) 데이터센터 확대에 따른 수주 증가와 대규모 수주잔고를 바탕으로 하반기부터 정상화 국면에 진입할 것으로 전망(밸류파인더 리포트 발행) ⇨ 보안관련주 부각"
+    },
+    {
+      "rank": 6,
+      "name": "진영",
+      "change_pct": "29.88",
+      "sector_tag": "화학관련주",
+      "market_cap": 10000000000,
+      "market_cap_display": "100억",
+      "theme_tag": "개별 등락",
+      "reason": "플라스틱시트사업, 액면병합 후 변경상장 첫날, 개별 등락"
+    },
+    {
+      "rank": 7,
+      "name": "이렘",
+      "change_pct": "29.83",
+      "sector_tag": "금속관련주",
+      "market_cap": 20000000000,
+      "market_cap_display": "200억",
+      "theme_tag": "강관관련주",
+      "reason": "스테인리스강관사업, 알래스카LNG관련주, 투자환기종목, 미국 정부가 한국의 대미투자 프로젝트 중 하나로 알래스카 액화천연가스(LNG) 프로젝트 참여를 강하게 요구하면서 철강과 강관 관련 모멘텀 형성 ⇨ 강관관련주 부각"
+    },
+    {
+      "rank": 8,
+      "name": "비엘팜텍",
+      "change_pct": "29.83",
+      "sector_tag": "건기식관련주",
+      "market_cap": 70000000000,
+      "market_cap_display": "700억",
+      "theme_tag": "건기식관련주",
+      "reason": "건기식&간편조리식품사업, 투자환기종목, 독자 개발한 기능성 건기식 신소재 상용화에 속도, 기존 홈쇼핑 위주 유통 구조에서 벗어나 온라인과 글로벌 유통망 확장 ⇨ 건기식관련주 부각"
+    },
+    {
+      "rank": 9,
+      "name": "샌즈랩",
+      "change_pct": "29.8",
+      "sector_tag": "IT서비스관련주",
+      "market_cap": 80000000000,
+      "market_cap_display": "800억",
+      "theme_tag": "보안관련주",
+      "reason": "IT보안사업, 젠슨 황 엔비디아 최고경영자(CEO)가 인공지능(AI) 기술의 차세대 핵심 시장으로 사이버보안을 지목 ⇨ 엔비디아 GPU(B200)를 기반으로 한 차세대 보안 AI 모델 개발에 참여 중 ⇨ 보안관련주 부각"
+    },
+    {
+      "rank": 10,
+      "name": "에스투더블유",
+      "change_pct": "26.38",
+      "sector_tag": "SW관련주",
+      "market_cap": 160000000000,
+      "market_cap_display": "1600억",
+      "theme_tag": "보안관련주",
+      "reason": "AI데이터솔루션사업, 공모가 13200원, 오픈AI(OpenAI)가 주도하는 사이버보안 이니셔티브 '데이브레이크(Daybreak)'의 글로벌 파트너 생태계 '데이브레이크 디펜스 네트워크(Daybreak Defense Network)'에 합류 ⇨ 보안관련주 부각"
+    },
+    {
+      "rank": 11,
+      "name": "드림시큐리티",
+      "change_pct": "23.29",
+      "sector_tag": "SW관련주",
+      "market_cap": 260000000000,
+      "market_cap_display": "2600억",
+      "theme_tag": "보안관련주",
+      "reason": "보안&SI사업, 젠슨 황 엔비디아 최고경영자(CEO)가 인공지능(AI) 기술의 차세대 핵심 시장으로 사이버보안을 지목 ⇨ 전자서명·인증·암호·보안 솔루션 사업 영위 ⇨ 보안관련주 부각"
+    },
+    {
+      "rank": 12,
+      "name": "케이쓰리아이",
+      "change_pct": "19.62",
+      "sector_tag": "IT서비스관련주",
+      "market_cap": 20000000000,
+      "market_cap_display": "200억",
+      "theme_tag": "개별 등락",
+      "reason": "XR&메타버스사업, 공모가 15500원, 재료미노출, 개별 등락"
+    },
+    {
+      "rank": 13,
+      "name": "한국화장품제조",
+      "change_pct": "19.38",
+      "sector_tag": "화장품관련주",
+      "market_cap": 350000000000,
+      "market_cap_display": "3500억",
+      "theme_tag": "화장품관련주",
+      "reason": "화장품ODM사업, 화장품 섹터의 조정이 길어도 9월에는 끝나면서 반등 가능성이 높다는 분석(한국투자증권 리포트 발행) ⇨ 화장품관련주 부각"
+    },
+    {
+      "rank": 14,
+      "name": "삼화콘덴서",
+      "change_pct": "18.76",
+      "sector_tag": "전기장비관련주",
+      "market_cap": 1400000000000,
+      "market_cap_display": "1조4천",
+      "theme_tag": "MLCC관련주",
+      "reason": "콘덴서사업, AI 산업의 가속화와 자율주행 등 전장 부품 시장의 성장에 따라 MLCC의 수요가 지속적으로 확대될 것이라는 증권가의 분석 ⇨ MLCC관련주 부각"
+    },
+    {
+      "rank": 15,
+      "name": "바이브컴퍼니",
+      "change_pct": "17.41",
+      "sector_tag": "SW관련주",
+      "market_cap": 30000000000,
+      "market_cap_display": "300억",
+      "theme_tag": "AI관련주",
+      "reason": "AI빅데이터분석사업, 정보통신정책연구원(KISDI)이 발주한 ‘2026년 LLM 서비스 고도화 사업’을 수주 ⇨ AI관련주 부각"
+    },
+    {
+      "rank": 16,
+      "name": "제이엘케이",
+      "change_pct": "17.2",
+      "sector_tag": "의료기기관련주",
+      "market_cap": 130000000000,
+      "market_cap_display": "1300억",
+      "theme_tag": "의료기기관련주",
+      "reason": "의료AI솔루션사업, 일본 주요 권역별 의료기기 유통사 5곳과 판매 계약을 체결하고 현지 판매망을 구축 ⇨ 의료기기관련주 부각"
+    },
+    {
+      "rank": 17,
+      "name": "나우로보틱스",
+      "change_pct": "15.94",
+      "sector_tag": "로봇관련주",
+      "market_cap": 230000000000,
+      "market_cap_display": "2300억",
+      "theme_tag": "로봇관련주",
+      "reason": "산업용로봇&솔루션사업, 한양로보틱스와의 합병을 통해 산업용 로봇 라인업 완성 및 경쟁력 강화 기대감, 정부의 '피지컬 AI' 실증사업자로 선정되어 산업용 휴머노이드 상용화 가속화 전망 ⇨ 로봇관련주 부각"
+    },
+    {
+      "rank": 18,
+      "name": "헝셩그룹",
+      "change_pct": "14.63",
+      "sector_tag": "국내상장중국기업주",
+      "market_cap": 30000000000,
+      "market_cap_display": "300억",
+      "theme_tag": "개별 등락",
+      "reason": "완구사업, 최대주주 등 대상 600억원 규모 제3자배정 유상증자 결정, 개별 등락"
+    },
+    {
+      "rank": 19,
+      "name": "아바텍",
+      "change_pct": "14.02",
+      "sector_tag": "디스플레이관련주",
+      "market_cap": 140000000000,
+      "market_cap_display": "1400억",
+      "theme_tag": "MLCC관련주",
+      "reason": "디스플레이코팅&MLCC사업, 50.00억원 규모 자사주 취득 신탁계약 체결 결정, AI 산업의 가속화와 자율주행 등 전장 부품 시장의 성장에 따라 MLCC의 수요가 지속적으로 확대될 것이라는 증권가의 분석 ⇨ MLCC관련주 부각"
+    },
+    {
+      "rank": 20,
+      "name": "모니터랩",
+      "change_pct": "13.75",
+      "sector_tag": "SW관련주",
+      "market_cap": 30000000000,
+      "market_cap_display": "300억",
+      "theme_tag": "보안관련주",
+      "reason": "웹&클라우드보안사업, 젠슨 황 엔비디아 최고경영자(CEO)가 인공지능(AI) 기술의 차세대 핵심 시장으로 사이버보안을 지목 ⇨ MS 보안 파트너사 ⇨ 보안관련주 부각"
+    },
+    {
+      "rank": 21,
+      "name": "아이씨티케이",
+      "change_pct": "13.53",
+      "sector_tag": "통신장비관련주",
+      "market_cap": 240000000000,
+      "market_cap_display": "2400억",
+      "theme_tag": "보안관련주",
+      "reason": "통신부품사업, 젠슨 황 엔비디아 최고경영자(CEO)가 인공지능(AI) 기술의 차세대 핵심 시장으로 사이버보안을 지목 ⇨ 독보적인 하드웨어 보안 칩 원천기술과 양자내성암호(PQC) 솔루션을 확보 ⇨ 보안관련주 부각"
+    },
+    {
+      "rank": 22,
+      "name": "페스카로",
+      "change_pct": "13.51",
+      "sector_tag": "자동차부품관련주",
+      "market_cap": 70000000000,
+      "market_cap_display": "700억",
+      "theme_tag": "보안관련주",
+      "reason": "자동차사이버보안사업, 젠슨 황 엔비디아 최고경영자(CEO)가 인공지능(AI) 기술의 차세대 핵심 시장으로 사이버보안을 지목 ⇨ 차량용SW 사이버보안 사업 영위 ⇨ 보안관련주 부각"
+    },
+    {
+      "rank": 23,
+      "name": "자이에스앤디",
+      "change_pct": "13.3",
+      "sector_tag": "건설관련주",
+      "market_cap": 430000000000,
+      "market_cap_display": "4300억",
+      "theme_tag": "건설관련주",
+      "reason": "건축&주택개발&홈솔루션사업, 시흥배곧 복합문화중심도시 조성사업 우선협상대상자 선정 ⇨ 건설관련주 부각"
+    },
+    {
+      "rank": 24,
+      "name": "알비더블유",
+      "change_pct": "13.26",
+      "sector_tag": "미디어관련주",
+      "market_cap": 40000000000,
+      "market_cap_display": "400억",
+      "theme_tag": "개별 등락",
+      "reason": "매니지먼트&콘텐츠제작사업, 2분기 흑자전환 및 사옥 완공으로 자산건전성 확보, 개별 등락"
+    },
+    {
+      "rank": 25,
+      "name": "샘씨엔에스",
+      "change_pct": "13.12",
+      "sector_tag": "반도체관련주",
+      "market_cap": 950000000000,
+      "market_cap_display": "9500억",
+      "theme_tag": "반도체소부장관련주",
+      "reason": "세라믹기판사업, 프로브카드의 성장에 따른 동반 수혜 기대감(LS증권 리포트 발행) ⇨ 반도체소부장관련주 부각"
+    },
+    {
+      "rank": 26,
+      "name": "알멕",
+      "change_pct": "12.73",
+      "sector_tag": "자동차부품관련주",
+      "market_cap": 250000000000,
+      "market_cap_display": "2500억",
+      "theme_tag": "개별 등락",
+      "reason": "알루미늄압출사업, 스페이스X관련주, 미국 앨라배마 유폴라 공장 인수로 북미 현지 생산거점 확보 기대감. K-모빌리티 알루미늄 분야에서의 기술력과 메이드 인 USA 양산 박차 전망, 개별 등락"
+    },
+    {
+      "rank": 27,
+      "name": "아이크래프트",
+      "change_pct": "12.63",
+      "sector_tag": "IT서비스관련주",
+      "market_cap": 80000000000,
+      "market_cap_display": "800억",
+      "theme_tag": "보안관련주",
+      "reason": "네트워크솔루션사업, 엔비디아관련주, 젠슨 황 엔비디아 최고경영자(CEO)가 인공지능(AI) 기술의 차세대 핵심 시장으로 사이버보안을 지목 ⇨ 네트워크 인프라·보안 솔루션·클라우드 보안·IT 인프라 구축 영위 ⇨ 보안관련주 부각"
+    },
+    {
+      "rank": 28,
+      "name": "솔루스첨단소재",
+      "change_pct": "12.57",
+      "sector_tag": "이차전지관련주",
+      "market_cap": 600000000000,
+      "market_cap_display": "6000억",
+      "theme_tag": "원자재관련주",
+      "reason": "전지박&동박사업, 원자재 ‘동’에 대한 새로운 사이클이 도래했다는 분석(하나증권 리포트 발행) ⇨ 원자재관련주 부각"
+    },
+    {
+      "rank": 29,
+      "name": "엑스페릭스",
+      "change_pct": "12.42",
+      "sector_tag": "보안장비관련주",
+      "market_cap": 90000000000,
+      "market_cap_display": "900억",
+      "theme_tag": "의료기기관련주",
+      "reason": "바이오인증사업, 구) 슈프리마아이디, 자회사 베이클랩스이 근감소증 디지털치료기기 'DEX-2'의 임상시험계획 승인을 식품의약품안전처에 신청 ⇨ 의료기기관련주 부각"
+    },
+    {
+      "rank": 30,
+      "name": "인바이오",
+      "change_pct": "12.09",
+      "sector_tag": "화학관련주",
+      "market_cap": 20000000000,
+      "market_cap_display": "200억",
+      "theme_tag": "개별 등락",
+      "reason": "농약사업, 2분기 및 상반기 실적 흑자전환, 개별 등락"
+    }
   ]
 }
