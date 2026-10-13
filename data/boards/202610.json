@@ -1508,5 +1508,307 @@
       "theme_tag": "개별 등락",
       "reason": "시스템반도체개발사업, 1 : 1 무상증자 발표, 개별 등락"
     }
+  ],
+  "20261013": [
+    {
+      "rank": 1,
+      "name": "하이퍼코퍼레이션",
+      "change_pct": "30.0",
+      "sector_tag": "유통관련주",
+      "market_cap": 20000000000,
+      "market_cap_display": "200억",
+      "theme_tag": "IT유통관련주",
+      "reason": "IT기기&간편식&바이오사업, 구) 메디프론디비티, 유상증자 계획 철회, 글로벌 로봇청소기 브랜드 에코백스(ECOVACS)의 오프라인 판매망을 롯데하이마트 약 200개점으로 확대 ⇨ IT유통관련주 부각"
+    },
+    {
+      "rank": 2,
+      "name": "서산",
+      "change_pct": "29.88",
+      "sector_tag": "건설관련주",
+      "market_cap": 170000000000,
+      "market_cap_display": "1700억",
+      "theme_tag": "호남반도체관련주",
+      "reason": "콘크리트&에너지솔루션사업, 재건관련주, SK그룹의 최태원 회장이 호남반도체 부지를 방문해서 속도전 선언 ⇨ 본사 광주광역시 광산구에 위치 ⇨ 호남반도체관련주 부각"
+    },
+    {
+      "rank": 3,
+      "name": "이렘",
+      "change_pct": "22.38",
+      "sector_tag": "금속관련주",
+      "market_cap": 20000000000,
+      "market_cap_display": "200억",
+      "theme_tag": "개별 등락",
+      "reason": "스테인리스강관사업, 알래스카LNG관련주, 투자환기종목, 투자주의종목, 유상증자 권리락 효과 발생, 개별 등락"
+    },
+    {
+      "rank": 4,
+      "name": "대양금속",
+      "change_pct": "19.82",
+      "sector_tag": "금속관련주",
+      "market_cap": 20000000000,
+      "market_cap_display": "200억",
+      "theme_tag": "개별 등락",
+      "reason": "냉연강판사업, 크라우드웍스가 120억원 투자로 공동경영참여, 최대주주가 디와이엠파트너스 외 3인에서 레거시1호투자조합으로 변경 등, 개별 등락"
+    },
+    {
+      "rank": 5,
+      "name": "동일기연",
+      "change_pct": "17.43",
+      "sector_tag": "전자장비관련주",
+      "market_cap": 50000000000,
+      "market_cap_display": "500억",
+      "theme_tag": "개별 등락",
+      "reason": "전자부품&의료기기사업, 삼성전자 1만7000주 보유로 배당수익 기대감, 개별 등락"
+    },
+    {
+      "rank": 6,
+      "name": "야스",
+      "change_pct": "16.14",
+      "sector_tag": "디스플레이관련주",
+      "market_cap": 130000000000,
+      "market_cap_display": "1300억",
+      "theme_tag": "디스플레이관련주",
+      "reason": "반도체&디스플레이증착장비, LG디스플레이가 차세대 유기발광다이오드(OLED) 기술 '플립(FLiPP)' 생산에 필요한 증착장비를 동사에 발주 결정 ⇨ 디스플레이관련주 부각"
+    },
+    {
+      "rank": 7,
+      "name": "삼화전기",
+      "change_pct": "15.83",
+      "sector_tag": "전자부품관련주",
+      "market_cap": 190000000000,
+      "market_cap_display": "1900억",
+      "theme_tag": "전자부품관련주",
+      "reason": "축전기사업, ‘KES 2026’에 참가해서 AI와 모빌리티 산업을 뒷받침하는 핵심 부품·소재 기술을 소개 ⇨ 전자부품관련주 부각"
+    },
+    {
+      "rank": 8,
+      "name": "국제약품",
+      "change_pct": "15.4",
+      "sector_tag": "건강관리관련주",
+      "market_cap": 90000000000,
+      "market_cap_display": "900억",
+      "theme_tag": "개별 등락",
+      "reason": "의약품제조판매&의료기기사업, 남영우 명예회장이 보유 주식 전량을 남 부회장에게 증여하면서 승계 마무리, 개별 등락"
+    },
+    {
+      "rank": 9,
+      "name": "비스토스",
+      "change_pct": "14.5",
+      "sector_tag": "의료장비관련주",
+      "market_cap": 20000000000,
+      "market_cap_display": "200억",
+      "theme_tag": "개별 등락",
+      "reason": "웨어러블헬스케어사업, 전일 임시주주총회를 통해서 자금조달 수단과 규모를 확대, 개별 등락"
+    },
+    {
+      "rank": 10,
+      "name": "세코닉스",
+      "change_pct": "14.22",
+      "sector_tag": "전자장비관련주",
+      "market_cap": 50000000000,
+      "market_cap_display": "500억",
+      "theme_tag": "전자부품관련주",
+      "reason": "카메라렌즈&모듈사업, 광학부품 전문기업으로 경쟁력 조명(한국IR협의회 리포트 발행) ⇨ 전자부품관련주 부각"
+    },
+    {
+      "rank": 11,
+      "name": "HC보광산업",
+      "change_pct": "12.37",
+      "sector_tag": "건설관련주",
+      "market_cap": 100000000000,
+      "market_cap_display": "1000억",
+      "theme_tag": "지역관련주",
+      "reason": "골재&아스콘사업, 구)보광산업, 삼성의 경북 구미 피지컬 AI 및 휴머노이드 로봇 생산라인 구축에 발맞춰 경북에서도 투자 발표 ⇨ 본사 대구 북구에서 건자재 사업 영위하면서 수혜 기대감 ⇨ 지역관련주 부각"
+    },
+    {
+      "rank": 12,
+      "name": "베셀",
+      "change_pct": "12.13",
+      "sector_tag": "디스플레이관련주",
+      "market_cap": 10000000000,
+      "market_cap_display": "100억",
+      "theme_tag": "개별 등락",
+      "reason": "LCD&OLED장비사업, 투자환기종목, 전일 관리종목지정 우려 종목 지정, 개별 등락"
+    },
+    {
+      "rank": 13,
+      "name": "HLB바이오스텝",
+      "change_pct": "12.05",
+      "sector_tag": "제약바이오관련주",
+      "market_cap": 100000000000,
+      "market_cap_display": "1000억",
+      "theme_tag": "제약바이오관련주",
+      "reason": "비임상CRO&AI신약개발플랫폼사업, 투자경고종목, 산업통상부가 추진하고 한국산업기술기획평가원(KEIT)이 전문기관으로 참여하는 바이오산업기술개발사업의 인공지능(AI)-동물대체시험법(NAMs) 국책과제에 참여 ⇨ 제약바이오관련주 부각"
+    },
+    {
+      "rank": 14,
+      "name": "블루산업개발",
+      "change_pct": "11.46",
+      "sector_tag": "종이관련주",
+      "market_cap": 20000000000,
+      "market_cap_display": "200억",
+      "theme_tag": "지역관련주",
+      "reason": "지관용원지&라이너원지사업, 투자주의종목, 한중 간에 새만금 투자 협력 확대 논의 ⇨ 새만금 산업단지 내 1만5000㎡ 규모 부지 인수 ⇨ 지역관련주 부각"
+    },
+    {
+      "rank": 15,
+      "name": "네오티스",
+      "change_pct": "11.4",
+      "sector_tag": "자동차부품관련주",
+      "market_cap": 290000000000,
+      "market_cap_display": "2900억",
+      "theme_tag": "반도체소부장관련주",
+      "reason": "전장부품&장비사업, 투자경고종목, 마이크로비트 쇼티지 상황이 지속되고 있으며 PCB 고다층화에 따라 Mix 개선까지 지속적으로 이뤄지고 있어 Blended ASP는 지속적으로 우상향할 것으로 예상(현대차증권 리포트 발행) ⇨ 반도체소부장관련주 부각"
+    },
+    {
+      "rank": 16,
+      "name": "디젠스",
+      "change_pct": "11.28",
+      "sector_tag": "자동차부품관련주",
+      "market_cap": 20000000000,
+      "market_cap_display": "200억",
+      "theme_tag": "개별 등락",
+      "reason": "배기계시스템사업, 최대주주 보유주식 상승, 개별 등락"
+    },
+    {
+      "rank": 17,
+      "name": "더코디",
+      "change_pct": "11.27",
+      "sector_tag": "디스플레이관련주",
+      "market_cap": 20000000000,
+      "market_cap_display": "200억",
+      "theme_tag": "개별 등락",
+      "reason": "고주파코일&트랜스포커&SMD인덕터사업, 투자환기종목, 로봇·AI 신사업, 인수를 추진하던 범LG가 3세 구본호 회장의 더코디 인수가 ‘이중 계약’ 의혹이 제기되면서 불발 가능성 상승, 개별 등락"
+    },
+    {
+      "rank": 18,
+      "name": "오텍",
+      "change_pct": "10.97",
+      "sector_tag": "운송장비관련주",
+      "market_cap": 70000000000,
+      "market_cap_display": "700억",
+      "theme_tag": "냉각관련주",
+      "reason": "특수차량&냉난방기&데이터센터냉각사업, 씨알케이(CRK)와 건축 마감재 기업 노이리움의 전국 신규 매장에 냉난방 및 냉동·냉장 설비를 공급 ⇨ 냉각관련주 부각"
+    },
+    {
+      "rank": 19,
+      "name": "웰킵스하이텍",
+      "change_pct": "10.8",
+      "sector_tag": "반도체관련주",
+      "market_cap": 30000000000,
+      "market_cap_display": "300억",
+      "theme_tag": "개별 등락",
+      "reason": "반도체DriverIC사업, 최대주주 추가매수, 개별 등락"
+    },
+    {
+      "rank": 20,
+      "name": "안랩",
+      "change_pct": "10.51",
+      "sector_tag": "SW관련주",
+      "market_cap": 950000000000,
+      "market_cap_display": "9500억",
+      "theme_tag": "사이버보안관련주",
+      "reason": "IT보안사업, 한국인터넷진흥원(KISA)의 '2026년 국가망 보안체계 도입 지원사업'을 통해 한국연구재단의 N2SF 구축을 지원 ⇨ 사이버보안관련주 부각"
+    },
+    {
+      "rank": 21,
+      "name": "엠에스오토텍",
+      "change_pct": "10.06",
+      "sector_tag": "자동차부품관련주",
+      "market_cap": 110000000000,
+      "market_cap_display": "1100억",
+      "theme_tag": "개별 등락",
+      "reason": "지주사업, 전일 종속회사 Simwon America Corp.의 나스닥 상장 결정 공시, 개별 등락"
+    },
+    {
+      "rank": 22,
+      "name": "에스티아이",
+      "change_pct": "9.84",
+      "sector_tag": "반도체관련주",
+      "market_cap": 420000000000,
+      "market_cap_display": "4200억",
+      "theme_tag": "반도체소부장관련주",
+      "reason": "반도체장비&디스플레이장비사업, 대만 ASE와의 리플로우 장비 품질 테스트 진행으로 공급처 다변화 기대감, 삼성전자와의 395억 규모 반도체 장비 공급 계약 체결로 인한 사업 확장 호재 ⇨ 반도체소부장관련주 부각"
+    },
+    {
+      "rank": 23,
+      "name": "이노시뮬레이션",
+      "change_pct": "9.11",
+      "sector_tag": "SW관련주",
+      "market_cap": 20000000000,
+      "market_cap_display": "200억",
+      "theme_tag": "자동차SW관련주",
+      "reason": "XR솔루션사업, 현대자동차의 UX 연구용 드라이빙 시뮬레이터 고도화 사업을 수주 ⇨ 자동차SW관련주 부각"
+    },
+    {
+      "rank": 24,
+      "name": "마니커에프앤지",
+      "change_pct": "8.42",
+      "sector_tag": "음식료관련주",
+      "market_cap": 20000000000,
+      "market_cap_display": "200억",
+      "theme_tag": "개별 등락",
+      "reason": "계육&돈육가공제품사업, 최대주주 팜스토리가 동사 주식 장내매수 계획 공시, 개별 등락"
+    },
+    {
+      "rank": 25,
+      "name": "세미티에스",
+      "change_pct": "8.07",
+      "sector_tag": "반도체관련주",
+      "market_cap": 100000000000,
+      "market_cap_display": "1000억",
+      "theme_tag": "반도체관련주",
+      "reason": "반도체물류자동화사업, 110억 규모의 반도체 물류 프로젝트 수주로 글로벌 팹 공략 확대 기대감, 질소퍼지시스템 매출 본격화로 인한 수익성 개선 전망 등 ⇨ 반도체관련주 부각"
+    },
+    {
+      "rank": 26,
+      "name": "롯데손해보험",
+      "change_pct": "7.94",
+      "sector_tag": "보험관련주",
+      "market_cap": 780000000000,
+      "market_cap_display": "7800억",
+      "theme_tag": "개별 등락",
+      "reason": "손해보험사업, 신한금융지주로 피인수 공시, 개별 등락"
+    },
+    {
+      "rank": 27,
+      "name": "인텍플러스",
+      "change_pct": "7.87",
+      "sector_tag": "반도체관련주",
+      "market_cap": 800000000000,
+      "market_cap_display": "8000억",
+      "theme_tag": "반도체소부장관련주",
+      "reason": "외관검사장비사업, 투자경고종목, 309억 원 규모 반도체 검사 장비 수주 ⇨ 반도체소부장관련주 부각"
+    },
+    {
+      "rank": 28,
+      "name": "매커스",
+      "change_pct": "7.44",
+      "sector_tag": "반도체관련주",
+      "market_cap": 330000000000,
+      "market_cap_display": "3300억",
+      "theme_tag": "반도체관련주",
+      "reason": "반도체솔루션사업, 자사주 비율 46.23%, 전방 수요처의 고성장으로 기대감 상승 ⇨ 반도체관련주 부각"
+    },
+    {
+      "rank": 29,
+      "name": "두산테스나",
+      "change_pct": "7.43",
+      "sector_tag": "반도체관련주",
+      "market_cap": 2500000000000,
+      "market_cap_display": "2조5천",
+      "theme_tag": "반도체소부장관련주",
+      "reason": "테스트사업, LPU 신규 양산 및 2027년 실적 성장 기대감(메리츠증권 리포트 발행) ⇨ 반도체소부장관련주 부각"
+    },
+    {
+      "rank": 30,
+      "name": "피에스케이홀딩스",
+      "change_pct": "7.2",
+      "sector_tag": "반도체관련주",
+      "market_cap": 4600000000000,
+      "market_cap_display": "4조6천",
+      "theme_tag": "반도체소부장관련주",
+      "reason": "지주사업, 글로벌 고객사들의 설비투자 사이클이 시작되면서 실적 전망치 상향(신한투자증권 리포트 발행) ⇨ 반도체소부장관련주 부각"
+    }
   ]
 }
