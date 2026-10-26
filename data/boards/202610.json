@@ -3914,5 +3914,307 @@
       "theme_tag": "연료전지관련주",
       "reason": "반도체&연료전지&바이오사업, 일론 머스크의 내년부터 AI를 위한 대규모 인프라 증설에 대한 내용 발표로 연료전지(SOFC) 활용에 대한 수혜 기대감 상승 ⇨ 연료전지관련주 부각"
     }
+  ],
+  "20261026": [
+    {
+      "rank": 1,
+      "name": "루닛",
+      "change_pct": "30.0",
+      "sector_tag": "건강관리관련주",
+      "market_cap": 1000000000000,
+      "market_cap_display": "1조",
+      "theme_tag": "의료AI관련주",
+      "reason": "판독보조솔루션사업, 서밋 테라퓨틱스와 면역항암제 '이보네시맙' 개발 과정에 AI 병리 분석 플랫폼 '루닛 스코프 IO'를 활용하는 연구 협약을 체결 ⇨ 의료AI관련주 부각"
+    },
+    {
+      "rank": 2,
+      "name": "아이씨에이치",
+      "change_pct": "29.98",
+      "sector_tag": "전자장비관련주",
+      "market_cap": 20000000000,
+      "market_cap_display": "200억",
+      "theme_tag": "폴더블폰관련주",
+      "reason": "회로소재&폴리우레탄사업, 옵티머스관련주, 삼성전자 1차 벤더코드를 취득하며 소재부터 완제품까지 직접 공급할 수 있는 기반을 확보 ⇨ 폴더블폰관련주 부각"
+    },
+    {
+      "rank": 3,
+      "name": "뷰노",
+      "change_pct": "29.95",
+      "sector_tag": "의료기기관련주",
+      "market_cap": 100000000000,
+      "market_cap_display": "1000억",
+      "theme_tag": "의료AI관련주",
+      "reason": "의료IT사업, 중국 의료 전문기업 궈룬과 AI 기반 심정지 예측 의료기기 VUNO Med®-DeepCARS®(DeepCARS)의 하이난성 독점 판매계약을 체결 발표 ⇨ 의료AI관련주 부각"
+    },
+    {
+      "rank": 4,
+      "name": "컨텍",
+      "change_pct": "29.89",
+      "sector_tag": "우주항공관련주",
+      "market_cap": 170000000000,
+      "market_cap_display": "1700억",
+      "theme_tag": "우주항공관련주",
+      "reason": "위성데이터사업, 공모가 22500원, 자체 지상국 인프라로 '대전샛' 양방향 교신 성공 및 미국의 저궤도위성과 우주-지상 간 광통신 실증 임무 성공으로 모멘텀 지속 ⇨ 우주항공관련주 부각"
+    },
+    {
+      "rank": 5,
+      "name": "빅웨이브로보틱스",
+      "change_pct": "29.82",
+      "sector_tag": "기계관련주",
+      "market_cap": 290000000000,
+      "market_cap_display": "2900억",
+      "theme_tag": "로봇관련주",
+      "reason": "로봇자동화플랫폼사업, 로봇 자동화 플랫폼 사업 확장과 북미 시장 진출 가속화 기대감, 휴머노이드 로봇 기반 솔루션 도입에 따른 성장 전망, 휴머노이드 로봇의 양산 확대와 부품 수요 증가에 대한 기대 등 ⇨ 로봇관련주 부각"
+    },
+    {
+      "rank": 6,
+      "name": "유니테크노",
+      "change_pct": "20.65",
+      "sector_tag": "자동차부품관련주",
+      "market_cap": 80000000000,
+      "market_cap_display": "800억",
+      "theme_tag": "이차전지관련주",
+      "reason": "구동&플라스틱부품사업, 글로벌 배터리 기업 L사 북미향 ESS 차세대 부품 공급사로 선정 소식, 삼성SDI·LG엔솔 ESS 공급망 확보 소식 등 ⇨ 이차전지관련주 부각"
+    },
+    {
+      "rank": 7,
+      "name": "브릴스",
+      "change_pct": "20.65",
+      "sector_tag": "기계관련주",
+      "market_cap": 210000000000,
+      "market_cap_display": "2100억",
+      "theme_tag": "로봇관련주",
+      "reason": "로봇모듈화플랫폼사업, 미국의 외국산 로봇 규제 강화에 대응해 미시간 현지법인(BRILS USA LLC)을 거점으로 피지컬 AI 로봇의 현지 생산 체제를 추진, 휴머노이드 로봇의 양산 확대와 부품 수요 증가에 대한 기대 등 ⇨ 로봇관련주 부각"
+    },
+    {
+      "rank": 8,
+      "name": "다이나믹솔루션",
+      "change_pct": "20.12",
+      "sector_tag": "의료기기관련주",
+      "market_cap": 50000000000,
+      "market_cap_display": "500억",
+      "theme_tag": "로봇관련주",
+      "reason": "재활의료기기사업, 구) 네오펙트, 중국 쑤저우에 본사를 둔 휴머노이드 로봇 기업 매직랩로보틱스와 업무협약(MOU)을 체결하고 로봇 사업 확대 ⇨ 로봇관련주 부각"
+    },
+    {
+      "rank": 9,
+      "name": "대양금속",
+      "change_pct": "18.34",
+      "sector_tag": "금속관련주",
+      "market_cap": 30000000000,
+      "market_cap_display": "300억",
+      "theme_tag": "개별 등락",
+      "reason": "냉연강판사업, 최대주주가 디와이엠파트너스 외 3인에서 레거시1호투자조합으로 변경, 제24회 사모 전환사채(CB)의 전환가액을 1주당 1285원으로 정정 등, 개별 등락"
+    },
+    {
+      "rank": 10,
+      "name": "씨어스",
+      "change_pct": "17.51",
+      "sector_tag": "의료기기관련주",
+      "market_cap": 1000000000000,
+      "market_cap_display": "1조",
+      "theme_tag": "의료AI관련주",
+      "reason": "웨어러블의료기기사업, 공모가 17000원, 구)씨어스테크놀로지, 원격진료관련주, 대웅제약을 통해 아주대학교병원 342병상에 AI 기반 환자 모니터링 시스템 '씽크(thynC)'를 공급하고 운영을 시작 ⇨ 의료AI관련주 부각"
+    },
+    {
+      "rank": 11,
+      "name": "한국피아이엠",
+      "change_pct": "17.06",
+      "sector_tag": "자동차부품관련주",
+      "market_cap": 280000000000,
+      "market_cap_display": "2800억",
+      "theme_tag": "로봇관련주",
+      "reason": "변속기&엔진사업, 코넥스상장주, 휴머노이드 로봇의 양산 확대와 부품 수요 증가에 대한 기대 ⇨ 액추에이터·감속기 핵심 부품 공급사 ⇨ 로봇관련주 부각"
+    },
+    {
+      "rank": 12,
+      "name": "오늘이엔엠",
+      "change_pct": "16.67",
+      "sector_tag": "통신장비관련주",
+      "market_cap": 90000000000,
+      "market_cap_display": "900억",
+      "theme_tag": "통신장비&로봇관련주",
+      "reason": "안테나&로봇사업, 구)휴림네트웍스, 자율주행관련주, 세무조사 추징금 297억 원이 '0원'으로 취소되며 재무 건전성 강화 전망, 피지컬 AI 최적화 기지국 안테나 기술 특허 출원에 따른 기술 혁신 기대감 등 ⇨ 통신장비&로봇관련주 부각"
+    },
+    {
+      "rank": 13,
+      "name": "SKAI",
+      "change_pct": "16.35",
+      "sector_tag": "IT서비스관련주",
+      "market_cap": 100000000000,
+      "market_cap_display": "1000억",
+      "theme_tag": "AI&로봇관련주",
+      "reason": "AI데이터관련주, 모회사 스카이월드와이드(SKAI Worldwide)가 지분을 42%에서 66.92%로 확장하며 지배력 상승, ‘피지컬 AI 데이터 풀스택’ 사업 기반을 완성하겠다는 구상 등 ⇨ AI&로봇관련주 부각"
+    },
+    {
+      "rank": 14,
+      "name": "뉴로핏",
+      "change_pct": "15.95",
+      "sector_tag": "IT서비스관련주",
+      "market_cap": 70000000000,
+      "market_cap_display": "700억",
+      "theme_tag": "의료AI관련주",
+      "reason": "의료IT솔루션사업, '바이오스펙트럼 아시아 엑셀런스 어워즈 2026'에서 2개 부문을 수상 ⇨ 의료AI관련주 부각"
+    },
+    {
+      "rank": 15,
+      "name": "에스팀",
+      "change_pct": "14.68",
+      "sector_tag": "엔터관련주",
+      "market_cap": 30000000000,
+      "market_cap_display": "300억",
+      "theme_tag": "엔터관련주",
+      "reason": "종합패션콘텐츠사업, 디지털 솔루션 기업 아이엠폼(IMFORM)과 중국 시장 진출 및 K-패션·K-콘텐츠 사업 확대를 위한 업무협약(MOU)을 체결 ⇨ 엔터관련주 부각"
+    },
+    {
+      "rank": 16,
+      "name": "해치텍",
+      "change_pct": "14.57",
+      "sector_tag": "반도체관련주",
+      "market_cap": 50000000000,
+      "market_cap_display": "500억",
+      "theme_tag": "반도체&로봇관련주",
+      "reason": "SoC자기센서IC팹리스사업, 글로벌 휴머노이드 로봇 시장의 핵심 경쟁 분야로 떠오른 손동작과 관절 정밀제어에 활용할 수 있는 인코더 집적회로(IC) 기술을 보유하면서 관련 업계의 관심이 집중 ⇨ 반도체&로봇관련주 부각"
+    },
+    {
+      "rank": 17,
+      "name": "인디에프",
+      "change_pct": "13.26",
+      "sector_tag": "섬유의복관련주",
+      "market_cap": 40000000000,
+      "market_cap_display": "400억",
+      "theme_tag": "남북경협관련주",
+      "reason": "의류사업, 김정은 깜짝 방중으로 그동안 사망설이 소멸하면서 남북경협에 모멘텀 형성 ⇨ 개성공단 이력 ⇨ 남북경협관련주 부각"
+    },
+    {
+      "rank": 18,
+      "name": "쓰리빌리언",
+      "change_pct": "13.0",
+      "sector_tag": "의료기기관련주",
+      "market_cap": 180000000000,
+      "market_cap_display": "1800억",
+      "theme_tag": "의료AI관련주",
+      "reason": "AI유전자검사진단사업, 미국인간유전학회 연례학술대회(ASHG 2026)에서 AI 유전체 해석 기술과 희귀질환 진단 연구 등 총 4건의 연구 결과를 발표 ⇨ 의료AI관련주 부각"
+    },
+    {
+      "rank": 19,
+      "name": "레몬헬스케어",
+      "change_pct": "12.53",
+      "sector_tag": "건강관리관련주",
+      "market_cap": 50000000000,
+      "market_cap_display": "500억",
+      "theme_tag": "의료AI관련주",
+      "reason": "의료데이터사업, 의료AI테마 강세 ⇨ 의료AI관련주 부각"
+    },
+    {
+      "rank": 20,
+      "name": "유티아이",
+      "change_pct": "12.45",
+      "sector_tag": "휴대폰부품관련주",
+      "market_cap": 40000000000,
+      "market_cap_display": "400억",
+      "theme_tag": "폴더블폰관련주",
+      "reason": "UTG사업, 투자환기종목, 폴더블폰용 UTG 가공 기술과 고객사 공급 확대 기대 ⇨ 폴더블폰관련주 부각"
+    },
+    {
+      "rank": 21,
+      "name": "포메탈",
+      "change_pct": "11.9",
+      "sector_tag": "기계관련주",
+      "market_cap": 30000000000,
+      "market_cap_display": "300억",
+      "theme_tag": "로봇관련주",
+      "reason": "산업기계&자동차&로봇용단조사업, 휴머노이드 로봇의 양산 확대와 부품 수요 증가에 대한 기대 ⇨ 산업용 로봇에 주로 쓰이는 RV 감속기의 핵심 부품(RV Gear, Center Gear, Shaft 등)을 생산, 전 세계 중대형 산업용 로봇 감속기 시장의 약 60%를 장악하고 있는 일본 나브테스코가 포메탈의 주요 고객사 등 ⇨ 로봇관련주 부각"
+    },
+    {
+      "rank": 22,
+      "name": "엠에스바이오",
+      "change_pct": "11.25",
+      "sector_tag": "건강관리관련주",
+      "market_cap": 290000000000,
+      "market_cap_display": "2900억",
+      "theme_tag": "신규상장주",
+      "reason": "인체조직&생체유래&의료기기사업, 지난주 목요일 신규상장 ⇨ 신규상장주 부각"
+    },
+    {
+      "rank": 23,
+      "name": "AP위성",
+      "change_pct": "9.87",
+      "sector_tag": "통신장비관련주",
+      "market_cap": 130000000000,
+      "market_cap_display": "1300억",
+      "theme_tag": "우주항공관련주",
+      "reason": "이동위성통신서비스사업, 유럽 회사와의 협력을 통한 2028년 SAR 위성 발사 계획 발표에 따른 기대감, 자체 위성 개발 역량을 강화하기 위한 통합 AIT센터 준공에 따른 긍정적 전망 등 ⇨ 우주항공관련주 부각"
+    },
+    {
+      "rank": 24,
+      "name": "로보티즈",
+      "change_pct": "9.56",
+      "sector_tag": "로봇관련주",
+      "market_cap": 3600000000000,
+      "market_cap_display": "3조6천",
+      "theme_tag": "로봇관련주",
+      "reason": "자율주행로봇사업, LG전자가 지분보유, 마이크로덕을 함께 만든 폴렌로보틱스 CEO와 전략적 조달 계약 체결 ⇨ 로봇관련주 부각"
+    },
+    {
+      "rank": 25,
+      "name": "알트",
+      "change_pct": "9.29",
+      "sector_tag": "휴대폰관련주",
+      "market_cap": 40000000000,
+      "market_cap_display": "400억",
+      "theme_tag": "로봇관련주",
+      "reason": "스마트디바이스&셋톱박스사업, 휴머노이드 로봇의 양산 확대와 부품 수요 증가에 대한 기대 ⇨ AI 케어 로봇 사업과 인간-로봇 상호작용(HRI) 기술 보유 ⇨ 로봇관련주 부각"
+    },
+    {
+      "rank": 26,
+      "name": "크라우드웍스",
+      "change_pct": "9.23",
+      "sector_tag": "IT서비스관련주",
+      "market_cap": 20000000000,
+      "market_cap_display": "200억",
+      "theme_tag": "로봇관련주",
+      "reason": "학습용AI사업, 크라우드웍스가 AI 학습용 데이터 구축 경험을 기업용 에이전트와 피지컬 AI 사업으로 확장 ⇨ 로봇관련주 부각"
+    },
+    {
+      "rank": 27,
+      "name": "씨티알모빌리티",
+      "change_pct": "9.0",
+      "sector_tag": "자동차부품관련주",
+      "market_cap": 20000000000,
+      "market_cap_display": "200억",
+      "theme_tag": "로봇관련주",
+      "reason": "구동&현가장치사업, 휴머노이드 로봇의 양산 확대와 부품 수요 증가에 대한 기대 ⇨ 휴머노이드 로봇 및 3D 프린터용 볼스크류(Ball Screw) 사업 영위 ⇨ 로봇관련주 부각"
+    },
+    {
+      "rank": 28,
+      "name": "샌즈랩",
+      "change_pct": "8.7",
+      "sector_tag": "IT서비스관련주",
+      "market_cap": 100000000000,
+      "market_cap_display": "1000억",
+      "theme_tag": "사이버보안관련주",
+      "reason": "IT보안사업, 미국 보안당국이 PHP의 중대한 보안 취약점에 대해 경고하면서 사이버보안 모멘텀 형성 ⇨ 사이버보안관련주 부각"
+    },
+    {
+      "rank": 29,
+      "name": "그린플러스",
+      "change_pct": "8.61",
+      "sector_tag": "건설관련주",
+      "market_cap": 40000000000,
+      "market_cap_display": "400억",
+      "theme_tag": "개별 등락",
+      "reason": "첨단온실사업, 스마트팜관련주, 대마관련주, 재료미노출, 개별 등락"
+    },
+    {
+      "rank": 30,
+      "name": "폴라리스AI",
+      "change_pct": "8.22",
+      "sector_tag": "IT서비스관련주",
+      "market_cap": 80000000000,
+      "market_cap_display": "800억",
+      "theme_tag": "로봇관련주",
+      "reason": "패션&AI사업, 구) 리노스, 글로벌 휴머노이드 로봇 시장에서 매출 1위를 기록한 중국 유비테크(UBTECH)의 국내 공급을 맡아 산업용 로봇 사업 확대 ⇨ 로봇관련주 부각"
+    }
   ]
 }
