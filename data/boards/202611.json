@@ -1,0 +1,304 @@
+{
+  "20261102": [
+    {
+      "rank": 1,
+      "name": "워트",
+      "change_pct": "29.92",
+      "sector_tag": "반도체관련주",
+      "market_cap": 120000000000,
+      "market_cap_display": "1200억",
+      "theme_tag": "반도체소부장관련주",
+      "reason": "온습도제어장비사업, 삼성·SK하이닉스·대만 고객사 등으로부터 'EUV용 초정밀 온습도 제어장치' 평가 완료 ⇨ 반도체소부장관련주 부각"
+    },
+    {
+      "rank": 2,
+      "name": "샘표",
+      "change_pct": "29.91",
+      "sector_tag": "음식료관련주",
+      "market_cap": 110000000000,
+      "market_cap_display": "1100억",
+      "theme_tag": "개별 등락",
+      "reason": "지주사업, 샘표식품이 지주회사 샘표를 흡수합병하기로 발표, 개별 등락"
+    },
+    {
+      "rank": 3,
+      "name": "SGA솔루션즈",
+      "change_pct": "29.9",
+      "sector_tag": "SW관련주",
+      "market_cap": 60000000000,
+      "market_cap_display": "600억",
+      "theme_tag": "사이버보안관련주",
+      "reason": "보안솔루션사업, PHP 보안 취약점 'PHP2Shell'에 대응하기 위해 서버백신과 서버보안 솔루션을 활용한 가상패치 지원, 금융권(증권사, 자산운용사, 가상자산 거래소 등)에서 해킹 사고가 잇따르면서 사이버보안에 대한 관심 상승 등 ⇨ 사이버보안관련주 부각"
+    },
+    {
+      "rank": 4,
+      "name": "HLB바이오스텝",
+      "change_pct": "29.87",
+      "sector_tag": "제약바이오관련주",
+      "market_cap": 110000000000,
+      "market_cap_display": "1100억",
+      "theme_tag": "제약바이오관련주",
+      "reason": "비임상CRO&AI신약개발플랫폼사업, AI-NAMs 국책과제 참여로 디지털 비임상 CRO 사업 본격화 기대감, 바스젠바이오와의 AI동물대체시험 결합 서비스 개발 추진 호재 등 ⇨ 제약바이오관련주 부각"
+    },
+    {
+      "rank": 5,
+      "name": "샘표식품",
+      "change_pct": "29.86",
+      "sector_tag": "음식료관련주",
+      "market_cap": 120000000000,
+      "market_cap_display": "1200억",
+      "theme_tag": "개별 등락",
+      "reason": "발효식품산업, 샘표식품이 지주회사 샘표를 흡수합병하기로 발표, 개별 등락"
+    },
+    {
+      "rank": 6,
+      "name": "피앤에스로보틱스",
+      "change_pct": "29.86",
+      "sector_tag": "의료기기관련주",
+      "market_cap": 70000000000,
+      "market_cap_display": "700억",
+      "theme_tag": "의료기기관련주",
+      "reason": "재활로봇사업, 구) 피앤에스미캐닉스, 7월 워크봇 추가 공급계약과 어깨 재활로봇 힐러봇의 국내 병원 공급이 재조명 ⇨ 의료기기관련주 부각"
+    },
+    {
+      "rank": 7,
+      "name": "디티에스",
+      "change_pct": "29.77",
+      "sector_tag": "기계관련주",
+      "market_cap": 290000000000,
+      "market_cap_display": "2900억",
+      "theme_tag": "신규상장주",
+      "reason": "에너지플랜트기자재사업, 10월 23일 신규상장 ⇨ 신규상장주 부각"
+    },
+    {
+      "rank": 8,
+      "name": "영광",
+      "change_pct": "26.47",
+      "sector_tag": "조선관련주",
+      "market_cap": 190000000000,
+      "market_cap_display": "1900억",
+      "theme_tag": "신규상장주",
+      "reason": "조선기자재&모듈사업, 금일신규상장 ⇨ 신규상장주 부각"
+    },
+    {
+      "rank": 9,
+      "name": "에어레인",
+      "change_pct": "26.07",
+      "sector_tag": "화학관련주",
+      "market_cap": 60000000000,
+      "market_cap_display": "600억",
+      "theme_tag": "화학관련주",
+      "reason": "기체분리막사업, 공모가 23000원, 바이오가스 매출 2배 전망 및 이산화탄소·이오노머 재활용 신규 매출원 기대(지엘리서치 리포트 발행) ⇨ 화학관련주 부각"
+    },
+    {
+      "rank": 10,
+      "name": "한국철강",
+      "change_pct": "23.68",
+      "sector_tag": "금속관련주",
+      "market_cap": 470000000000,
+      "market_cap_display": "4700억",
+      "theme_tag": "개별 등락",
+      "reason": "철근사업, 모회사 KISCO홀딩스에서 한국철강의 비상장 전환을 위한 공개매수 발표, 개별 등락"
+    },
+    {
+      "rank": 11,
+      "name": "KISCO홀딩스",
+      "change_pct": "19.92",
+      "sector_tag": "금속관련주",
+      "market_cap": 400000000000,
+      "market_cap_display": "4000억",
+      "theme_tag": "개별 등락",
+      "reason": "지주사업, 자회사 한국철강의 비상장 전환을 위한 공개매수 발표, 개별 등락"
+    },
+    {
+      "rank": 12,
+      "name": "큐리오시스",
+      "change_pct": "19.53",
+      "sector_tag": "의료기기관련주",
+      "market_cap": 160000000000,
+      "market_cap_display": "1600억",
+      "theme_tag": "의료기기관련주",
+      "reason": "바이오엔지니어링사업, 공모가 22000원, 글로벌 바이오 기업과 ODM 공급 확대 및 흑자 전환 기대감(그로쓰리서치 리포트 발행) ⇨ 의료기기관련주 부각"
+    },
+    {
+      "rank": 13,
+      "name": "아티스트컴퍼니",
+      "change_pct": "19.27",
+      "sector_tag": "엔터관련주",
+      "market_cap": 40000000000,
+      "market_cap_display": "400억",
+      "theme_tag": "개별 등락",
+      "reason": "마케팅&광고사업, 구)아티스트 유나이티드, 한동훈관련주, 아티스트스튜디오 보유주식을 ㈜매일방송에게 매각 결정, 개별 등락"
+    },
+    {
+      "rank": 14,
+      "name": "아티스트스튜디오",
+      "change_pct": "18.2",
+      "sector_tag": "미디어콘텐츠",
+      "market_cap": 30000000000,
+      "market_cap_display": "300억",
+      "theme_tag": "개별 등락",
+      "reason": "콘텐츠제작&NFT사업, 구) 래몽래인, 한동훈관련주, 최대주주가 아티스트스튜디오에서 ㈜매일방송로 변경, 상호 ‘스튜디오쏠쏠’로 변경 예정, 개별 등락"
+    },
+    {
+      "rank": 15,
+      "name": "메드팩토",
+      "change_pct": "16.89",
+      "sector_tag": "제약바이오관련주",
+      "market_cap": 120000000000,
+      "market_cap_display": "1200억",
+      "theme_tag": "제약바이오관련주",
+      "reason": "신약개발사업, 미국 식품의약국(FDA)으로부터 백토서팁의 골육종 임상 2상에 중용량 환자군을 추가하는 임상시험계획 변경을 승인 발표 ⇨ 제약바이오관련주 부각"
+    },
+    {
+      "rank": 16,
+      "name": "라온로보틱스",
+      "change_pct": "16.88",
+      "sector_tag": "반도체관련주",
+      "market_cap": 170000000000,
+      "market_cap_display": "1700억",
+      "theme_tag": "개별 등락",
+      "reason": "반도체이송로봇사업, 3분기 실적 호조(전년동기대비 매출액 +104.65%, 영업이익 +259.17%) 발표, 개별 등락"
+    },
+    {
+      "rank": 17,
+      "name": "비아트론",
+      "change_pct": "16.77",
+      "sector_tag": "디스플레이관련주",
+      "market_cap": 160000000000,
+      "market_cap_display": "1600억",
+      "theme_tag": "반도체소부장관련주",
+      "reason": "열처리장비사업, 유리기판관련주, 산업통상부 주관 '소재부품장비 으뜸기업'에 선정 ⇨ 반도체소부장관련주 부각"
+    },
+    {
+      "rank": 18,
+      "name": "HD현대마린엔진",
+      "change_pct": "16.74",
+      "sector_tag": "조선관련주",
+      "market_cap": 1400000000000,
+      "market_cap_display": "1조4천",
+      "theme_tag": "조선기자재관련주",
+      "reason": "선박엔진사업, 글로벌 선박 발주 확대 및 신조선가 상승(메리츠증권 리포트 발행), 글로벌 선박 엔진 원천기술사인 윈지디(WinGD)와 손잡고 엔진 제품군 확대 등 ⇨ 조선기자재관련주 부각"
+    },
+    {
+      "rank": 19,
+      "name": "코아시아",
+      "change_pct": "16.57",
+      "sector_tag": "반도체관련주",
+      "market_cap": 100000000000,
+      "market_cap_display": "1000억",
+      "theme_tag": "반도체소부장관련주",
+      "reason": "반도체부품&IT부품유통사업, 종속회사인 코아시아세미에서 삼성 파운드리 4나노 공정 기반 고성능 빅다이(Big Die) 반도체의 양산용 웨이퍼 출하 시작 ⇨ 반도체소부장관련주"
+    },
+    {
+      "rank": 20,
+      "name": "HLB제약",
+      "change_pct": "15.37",
+      "sector_tag": "제약바이오관련주",
+      "market_cap": 420000000000,
+      "market_cap_display": "4200억",
+      "theme_tag": "음식료관련주",
+      "reason": "의약품사업, 국내 독점 수입·유통하는 뉴질랜드 프리미엄 기버터 ‘밀키오 골드(MILKIO Gold)’가 TV홈쇼핑 론칭 방송 20분 만에 준비 물량을 전량 소진하며 조기 매진을 기록 ⇨ 음식료관련주 부각"
+    },
+    {
+      "rank": 21,
+      "name": "3S",
+      "change_pct": "14.24",
+      "sector_tag": "반도체관련주",
+      "market_cap": 70000000000,
+      "market_cap_display": "700억",
+      "theme_tag": "반도체소부장관련주",
+      "reason": "웨이퍼캐리어사업, LG전자와 창원대 극한지역 모사용 50HP 복합 챔버 30.6억원 공급계약 ⇨ 반도체소부장관련주 부각"
+    },
+    {
+      "rank": 22,
+      "name": "성광벤드",
+      "change_pct": "13.85",
+      "sector_tag": "기계관련주",
+      "market_cap": 790000000000,
+      "market_cap_display": "7900억",
+      "theme_tag": "강관관련주",
+      "reason": "철강관이음쇠사업, 조선기자재관련주, 정부의 알래스카 사업성 합리성 검토 절차 돌입 소식에 철강·강관·벨브 등에 모멘텀 생성 ⇨ 강관관련주 부각"
+    },
+    {
+      "rank": 23,
+      "name": "진코스텍",
+      "change_pct": "13.46",
+      "sector_tag": "화장품관련주",
+      "market_cap": 30000000000,
+      "market_cap_display": "300억",
+      "theme_tag": "화장품관련주",
+      "reason": "화장품OEM/ODM&마스크팩&패치사업, 하이드로겔 마스크팩과 패치류 주문 증가로 생산능력 확충 ⇨ 화장품관련주 부각"
+    },
+    {
+      "rank": 24,
+      "name": "태광",
+      "change_pct": "13.44",
+      "sector_tag": "기계관련주",
+      "market_cap": 750000000000,
+      "market_cap_display": "7500억",
+      "theme_tag": "강관관련주",
+      "reason": "배관자재&철강관이음쇠사업, 정부의 알래스카 사업성 합리성 검토 절차 돌입 소식에 철강·강관·벨브 등에 모멘텀 생성 ⇨ 강관관련주 부각"
+    },
+    {
+      "rank": 25,
+      "name": "효성중공업",
+      "change_pct": "13.22",
+      "sector_tag": "전기전력관련주",
+      "market_cap": 18800000000000,
+      "market_cap_display": "18조8천",
+      "theme_tag": "개별 등락",
+      "reason": "중공업&건설사업, 역대 최대 수주 잔고를 기반으로 한 4분기 실적 기대감(다수의 증권사 리포트 발행), 개별 등락"
+    },
+    {
+      "rank": 26,
+      "name": "슈프리마",
+      "change_pct": "12.6",
+      "sector_tag": "보안장비관련주",
+      "market_cap": 350000000000,
+      "market_cap_display": "3500억",
+      "theme_tag": "물리보안관련주",
+      "reason": "바이오인식사업, 고수익 본업 호조 속 통합보안 영역으로 사업 확장 기대감(스몰인사이트리서치 리포트 발행) ⇨ 물리보안관련주 부각"
+    },
+    {
+      "rank": 27,
+      "name": "APS",
+      "change_pct": "11.88",
+      "sector_tag": "반도체관련주",
+      "market_cap": 70000000000,
+      "market_cap_display": "700억",
+      "theme_tag": "개별 등락",
+      "reason": "지주&반도체부품&소프트웨어&신소재사업, ㈜UPI를 흡수합병키로 결정, 10억원 규모의 자기주식 취득 신탁계약을 체결, 개별 등락"
+    },
+    {
+      "rank": 28,
+      "name": "현대제철",
+      "change_pct": "11.61",
+      "sector_tag": "금속관련주",
+      "market_cap": 3800000000000,
+      "market_cap_display": "3조8천",
+      "theme_tag": "철강관련주",
+      "reason": "철강사업, 3분기 실적 호조(전년동기대비 매출 +23.1%, 영업이익 +8.1%) 발표 및 4분기에 회복 기대감(다수의 증권사 리포트 발행) ⇨ 철강관련주"
+    },
+    {
+      "rank": 29,
+      "name": "현대글로비스",
+      "change_pct": "11.26",
+      "sector_tag": "운수관련주",
+      "market_cap": 15100000000000,
+      "market_cap_display": "15조1천",
+      "theme_tag": "해운관련주",
+      "reason": "종합물류사업, 3분기 부진한 실적에도 불구하고 4분기에 회복 기대감(다수의 증권사 리포트 발행) ⇨ 해운관련주"
+    },
+    {
+      "rank": 30,
+      "name": "에코프로에이치엔",
+      "change_pct": "11.23",
+      "sector_tag": "환경관련주",
+      "market_cap": 540000000000,
+      "market_cap_display": "5400억",
+      "theme_tag": "개별 등락",
+      "reason": "유해가스&온실가스제거사업, 반도체 호황에 기반한 견고한 해외 수주와 3분기 실적 기대감(11/5 발표), 개별 등락"
+    }
+  ]
+}
